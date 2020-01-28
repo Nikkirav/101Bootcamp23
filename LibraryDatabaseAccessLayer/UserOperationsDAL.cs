@@ -53,10 +53,14 @@ namespace LibraryDatabaseAccessLayer
                 using (IDbCommand _command = this._connection.CreateCommand())
                 {
 
+                    // open connection
+                    this._connection.Open();
+
                     // set the command properties
                     _command.CommandText = "sp_get_users";
                     _command.CommandType = System.Data.CommandType.StoredProcedure;
                     _command.CommandTimeout = 15;
+                    
 
 
                     // parameter
@@ -170,14 +174,15 @@ namespace LibraryDatabaseAccessLayer
                         }
                     } // end if
 
-
+                    // close the connection
+                    this._connection.Close();
                 }
 
             }
             catch (Exception ex)
             {
 
-                 //ex throw;
+                 throw ex;
             }
 
 
