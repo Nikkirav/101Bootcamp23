@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace LibraryCommon
 {
-    public class Result
+    public enum ResultType
     {
-        // properties
-        public string Message { get; set; }
-        public ResultType Type { get; set; }
-
+        Not_Set = -1,
+        Failure = 0,
+        Success = 1
 
     }
 }

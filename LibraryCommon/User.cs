@@ -8,6 +8,8 @@ namespace LibraryCommon
 {
     public class User
     {
+
+        // properties
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
@@ -15,6 +17,8 @@ namespace LibraryCommon
         public string Username { get; set; }
 
         public string Password { get; set; }
+
+        public int UserId { get; set; }
     }
 
 
