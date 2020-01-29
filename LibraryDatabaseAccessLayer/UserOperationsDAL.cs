@@ -9,22 +9,18 @@ using System.Threading.Tasks;
 namespace LibraryDatabaseAccessLayer
 {
 
-
     public class UserOperationsDAL
     {
         // fields
         private IDbConnection _connection;
-        
-        
+               
         // properties
-
 
         // constructors
         public UserOperationsDAL(IDbConnection inConnection) 
         {
             // 3.f create a db connection
-            this._connection = inConnection;
-        
+            this._connection = inConnection;       
         }
 
 
@@ -40,8 +36,7 @@ namespace LibraryDatabaseAccessLayer
             // need to call one or two stored procedures
             // if dup, only call check for dup, end, return error
             // if no dup, call second sp add user, return succcess message
-
-           
+            
             try
             {
                 // sp check for dup
@@ -61,8 +56,6 @@ namespace LibraryDatabaseAccessLayer
                     _command.CommandType = System.Data.CommandType.StoredProcedure;
                     _command.CommandTimeout = 15;
                     
-
-
                     // parameter
                     // passing the username
                     // @parm_userid int= 0, @parm_username varchar(255) = ''
@@ -103,11 +96,6 @@ namespace LibraryDatabaseAccessLayer
                         }
                     }
 
-
-
-
-
-
                     if (_listOfUsers.Count != 0)
                     {
 
@@ -115,7 +103,7 @@ namespace LibraryDatabaseAccessLayer
 
                         // set our Result object the failure case
                         _result.Type = ResultType.Failure;
-                        _result.Message = "Duplicate username";
+                        _result.Message = "Duplicate Username exists. Please change Username and re-submit.";
 
                     }
                     else
@@ -170,14 +158,13 @@ namespace LibraryDatabaseAccessLayer
 
                             // set result object
                             _result.Type = ResultType.Success;
-                            _result.Message = "User registered";
+                            _result.Message = "User registered successfully. Please login.";
                         }
                     } // end if
 
                     // close the connection
                     this._connection.Close();
                 }
-
             }
             catch (Exception ex)
             {
@@ -185,24 +172,9 @@ namespace LibraryDatabaseAccessLayer
                  throw ex;
             }
 
-
-           
-
-          
-
-
-            // if check for dup or not
-            // if dup return here
-
-            // sp add user below if no dup
-
-
-
             return _result;
         }
 
     }
-
-
 
 }

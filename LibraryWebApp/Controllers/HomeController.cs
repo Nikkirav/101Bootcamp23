@@ -12,23 +12,15 @@ using System.Web.Mvc;
 
 namespace LibraryWebApp.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
 
         // fields
-        private IDbConnection _connection;
-
+       
         // properties
 
         // constuctors
-        public HomeController() 
-        {
-            string _conn = System.Configuration.ConfigurationManager.ConnectionStrings["dbconnection"].ConnectionString;
-            // this in only dependency of Sql Server specific classes
-            this._connection = new SqlConnection(_conn);
-        
-        }
-
+      
 
         public ActionResult Index()
         {
@@ -78,10 +70,8 @@ namespace LibraryWebApp.Controllers
             {
                 // 3. send the input down to the database and check for duplicate username
 
-
                 // 3.a create new bll object
-                UserOperationsBLL _userOperationsBLL = new UserOperationsBLL(this._connection);
-
+                UserOperationsBLL _userOperationsBLL = new UserOperationsBLL(base.Connection);
 
                 // 3.b need to convert UserModel object to User object
                 User _user = Mapper.UserModelToUser(inModel);
@@ -89,6 +79,8 @@ namespace LibraryWebApp.Controllers
                 // 3.c pass the user object down to bll layer
                 Result _result = _userOperationsBLL.RegisterUser(_user);
 
+                inModel.DialogMessage = _result.Message;
+                inModel.DialogMessageType = _result.Type.ToString();
 
                 return View(inModel);
             }
