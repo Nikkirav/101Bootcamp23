@@ -35,7 +35,21 @@ namespace LibraryBusinessLogicLayer
             return _result;
         }
 
+        public ResultUsers LoginUser(User inUser) 
+        {
 
+            // 3. send the input down to the database and check username/password
+
+            // 3.d  create a user operations dal object
+            UserOperationsDAL _userOperationsDAL = new UserOperationsDAL(this._connection);
+
+            // 3.e need a method that takes a User object and return a Result object
+            ResultUsers _result = _userOperationsDAL.LoginUserToDatabase(inUser);
+
+            // 3.f return the Result
+            return _result;
+
+        }
 
     }
 }

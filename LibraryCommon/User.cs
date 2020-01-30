@@ -19,6 +19,8 @@ namespace LibraryCommon
         public string Password { get; set; }
 
         public int UserId { get; set; }
+
+        public int RoleId { get; set; }
     }
 
 

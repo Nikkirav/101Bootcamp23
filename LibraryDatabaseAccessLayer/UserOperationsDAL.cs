@@ -8,11 +8,16 @@ using System.Threading.Tasks;
 
 namespace LibraryDatabaseAccessLayer
 {
-
+  
     public class UserOperationsDAL
     {
+
+        // properties
+      
+
         // fields
         private IDbConnection _connection;
+        private Logger _logger;
                
         // properties
 
@@ -20,7 +25,8 @@ namespace LibraryDatabaseAccessLayer
         public UserOperationsDAL(IDbConnection inConnection) 
         {
             // 3.f create a db connection
-            this._connection = inConnection;       
+            this._connection = inConnection;
+            this._logger = new Logger();
         }
 
 
@@ -55,15 +61,22 @@ namespace LibraryDatabaseAccessLayer
                     _command.CommandText = "sp_get_users";
                     _command.CommandType = System.Data.CommandType.StoredProcedure;
                     _command.CommandTimeout = 15;
-                    
+
                     // parameter
-                    // passing the username
-                    // @parm_userid int= 0, @parm_username varchar(255) = ''
+                    // @parm_userid int= 0,
+                    // @parm_username varchar(255) = '',
+                    // @parm_password varchar(255) = ''
                     IDbDataParameter _parameterUsername = _command.CreateParameter();
                     _parameterUsername.DbType = DbType.String;
                     _parameterUsername.ParameterName = "@parm_username";
                     _parameterUsername.Value = inUser.Username;
                     _command.Parameters.Add(_parameterUsername);
+
+                    IDbDataParameter _parameterPassword = _command.CreateParameter();
+                    _parameterPassword.DbType = DbType.String;
+                    _parameterPassword.ParameterName = "@parm_password";
+                    _parameterPassword.Value = "";
+                    _command.Parameters.Add(_parameterPassword);
 
                     IDbDataParameter _parameterUserId = _command.CreateParameter();
                     _parameterUserId.DbType = DbType.Int32;
@@ -75,7 +88,6 @@ namespace LibraryDatabaseAccessLayer
                     // 3.h run the command
                     using (IDataReader _reader = _command.ExecuteReader())
                     {
-
                         int _firstNamePosition = _reader.GetOrdinal("FirstName");
                         int _lastNamePosition = _reader.GetOrdinal("LastName");
                         int _usernamePosition = _reader.GetOrdinal("Username");
@@ -168,13 +180,110 @@ namespace LibraryDatabaseAccessLayer
             }
             catch (Exception ex)
             {
-
-                 throw ex;
+                 _logger.LogException(ex);
+                 throw;
             }
 
             return _result;
         }
 
+        public ResultUsers LoginUserToDatabase(User inUser)
+        {
+            // declare variables
+            List<User> _listOfUsers = new List<User>();
+            ResultUsers _result = new ResultUsers();
+
+            try
+            {
+
+                // 3.g create a db commmnd
+                using (IDbCommand _command = this._connection.CreateCommand())
+                {
+
+                    // open connection
+                    this._connection.Open();
+
+                    // set the command properties
+                    _command.CommandText = "sp_get_users";
+                    _command.CommandType = System.Data.CommandType.StoredProcedure;
+                    _command.CommandTimeout = 15;
+
+                    // parameter
+                    // @parm_userid int= 0,
+                    // @parm_username varchar(255) = '',
+	                // @parm_password varchar(255) = ''
+                    IDbDataParameter _parameterUsername = _command.CreateParameter();
+                    _parameterUsername.DbType = DbType.String;
+                    _parameterUsername.ParameterName = "@parm_username";
+                    _parameterUsername.Value = inUser.Username;
+                    _command.Parameters.Add(_parameterUsername);
+
+                    IDbDataParameter _parameterPassword = _command.CreateParameter();
+                    _parameterPassword.DbType = DbType.String;
+                    _parameterPassword.ParameterName = "@parm_password";
+                    _parameterPassword.Value = inUser.Password;
+                    _command.Parameters.Add(_parameterPassword);
+
+                    IDbDataParameter _parameterUserId = _command.CreateParameter();
+                    _parameterUserId.DbType = DbType.Int32;
+                    _parameterUserId.ParameterName = "@parm_userid";
+                    _parameterUserId.Value = 0;
+                    _command.Parameters.Add(_parameterUserId);
+
+                    // loop to read rows
+                    // 3.h run the command
+                    using (IDataReader _reader = _command.ExecuteReader())
+                    {
+
+                        int _firstNamePosition = _reader.GetOrdinal("FirstName");
+                        int _lastNamePosition = _reader.GetOrdinal("LastName");
+                        int _usernamePosition = _reader.GetOrdinal("Username");
+                        int _passwordPosition = _reader.GetOrdinal("Password");
+                        int _userIdPosition = _reader.GetOrdinal("UserId");
+                        int _roleIdPosition = _reader.GetOrdinal("RoleID_FK");
+
+                        while (_reader.Read())
+                        {
+                            User _currentUser = new User();
+                            _currentUser.FirstName = _reader.GetString(_firstNamePosition);
+                            _currentUser.LastName = _reader.GetString(_lastNamePosition);
+                            _currentUser.Password = _reader.GetString(_passwordPosition);
+                            _currentUser.Username = _reader.GetString(_usernamePosition);
+                            _currentUser.UserId = _reader.GetInt32(_userIdPosition);
+                            _currentUser.RoleId = _reader.GetInt32(_roleIdPosition);
+
+                            // add to list
+                            _listOfUsers.Add(_currentUser);
+                            
+                        }
+
+
+                        // if found 
+                        if (_listOfUsers.Count > 0)
+                        {
+                            _result.Message = "Username/password found.";
+                            _result.Type = ResultType.Success;
+
+                        }
+                        else // out found
+                        {
+                            _result.Message = "Username/password not found.";
+                            _result.Type = ResultType.Failure;
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogException(ex);
+                throw;
+            }
+
+            _result.ListOfUsers = _listOfUsers;
+            return _result;
+        }
     }
 
 }

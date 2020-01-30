@@ -27,18 +27,66 @@ namespace LibraryWebApp.Controllers
             return View();
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
+        //public ActionResult About()
+        //{
+        //    ViewBag.Message = "Your application description page.";
 
-            return View();
+        //    return View();
+        //}
+
+        //public ActionResult Contact()
+        //{
+        //    ViewBag.Message = "Your contact page.";
+
+        //    return View();
+        //}
+
+
+
+        [HttpGet]
+        public ActionResult Login()
+        {
+            LoginModel model = new LoginModel();
+            // 1. collect the information the the user
+            ViewBag.Message = "Login page.";
+            return View(model);
+
         }
 
-        public ActionResult Contact()
+        [HttpPost]
+        public ActionResult Login(LoginModel inModel) 
         {
-            ViewBag.Message = "Your contact page.";
 
-            return View();
+            if (ModelState.IsValid)
+            {
+                // 3. send the input down to the database and check for username/password
+
+                // 3.a create new bll object
+                UserOperationsBLL _userOperationsBLL = new UserOperationsBLL(base.Connection);
+
+                // 3.b need to convert LoginModel object to User object
+                User _user = Mapper.LoginModelToUser(inModel);
+
+                // 3.c pass the user object down to bll layer
+                ResultUsers _result = _userOperationsBLL.LoginUser(_user);
+
+                if (_result.Type == ResultType.Success)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    inModel.DialogMessage = _result.Message;
+                    inModel.DialogMessageType = _result.Type.ToString();
+                    return View(inModel);
+                }
+            }
+            // validation failed, have the user redo the form
+            else
+            {
+                return View(inModel);
+            }
+
         }
 
 
