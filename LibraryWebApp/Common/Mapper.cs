@@ -19,8 +19,34 @@ namespace LibraryWebApp.Common
             _user.LastName = inUserModel.LastName;
             _user.Username = inUserModel.Username;
             _user.Password = inUserModel.Password;
-
             return _user;
+        }
+
+        internal static UserModel UserToUserModel(User inUser) 
+        {
+            UserModel _userModel = new UserModel();
+            _userModel.FirstName = inUser.FirstName;
+            _userModel.LastName = inUser.LastName;
+            _userModel.Password = inUser.Password;
+            _userModel.RoleId = inUser.RoleId;
+            _userModel.RoleName = Mapper.RoleIdToRoleName(inUser.RoleId);
+            _userModel.UserId = inUser.UserId;
+            return _userModel;
+        }
+
+        private static string RoleIdToRoleName(int inRoleId)
+        {
+            switch (inRoleId)
+            {
+                case 1:
+                    return RoleType.Administrator.ToString();
+                case 2:
+                    return RoleType.Librarian.ToString();
+                case 3:
+                    return RoleType.Patron.ToString();
+                default:
+                    return RoleType.Anonymous.ToString();
+            }
         }
 
         internal static User LoginModelToUser(LoginModel inModel)

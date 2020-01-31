@@ -13,4 +13,14 @@ namespace LibraryCommon
         Success = 1
 
     }
+
+
+    public enum RoleType
+    { 
+        Anonymous = 0,
+        Administrator = 1,
+        Librarian = 2,
+        Patron = 3 
+    }
+
 }

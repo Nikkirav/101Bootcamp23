@@ -72,6 +72,14 @@ namespace LibraryWebApp.Controllers
 
                 if (_result.Type == ResultType.Success)
                 {
+                    UserModel _userModel = Mapper.UserToUserModel(_result.ListOfUsers[0]);
+
+                    Session["UserSession"] = _userModel;
+
+                    // Advanced Auth LMS
+                    Session["AUTHUsername"] = _userModel.Username;
+                    Session["AUTHRoles"] = _userModel.RoleName;
+
                     return RedirectToAction("Index", "Home");
                 }
                 else

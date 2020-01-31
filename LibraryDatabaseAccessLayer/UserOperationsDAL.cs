@@ -26,7 +26,7 @@ namespace LibraryDatabaseAccessLayer
         {
             // 3.f create a db connection
             this._connection = inConnection;
-            this._logger = new Logger();
+            this._logger = new Logger(inConnection);
         }
 
 
@@ -276,7 +276,7 @@ namespace LibraryDatabaseAccessLayer
             }
             catch (Exception ex)
             {
-
+                this._connection.Close();
                 _logger.LogException(ex);
                 throw;
             }

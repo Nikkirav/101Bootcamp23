@@ -25,5 +25,11 @@
         //TODO: other requirements for password at least one number and one special character !@#$%^&*
         public string Password { get; set; }
 
+        public int UserId { get; set;}
+
+        public int RoleId { get; set; }
+
+        public string RoleName { get; set; }
+
     }
 }
