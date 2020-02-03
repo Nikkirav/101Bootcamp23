@@ -1,3 +1,41 @@
-﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@using LibraryCommon;
+@using LibraryWebApp.Models;
+
+@{
+
+    if (Session["UserSession"] != null)
+    {
+        
+        UserModel _sessionUser;
+        _sessionUser = (UserModel)Session["UserSession"];
+
+        if (_sessionUser.RoleId == (int)RoleType.Administrator)
+        {
+            Layout = "~/Views/Shared/_Layout_Administrator.cshtml";
+        }
+        else if (_sessionUser.RoleId == (int)RoleType.Librarian)
+        {
+            Layout = "~/Views/Shared/_Layout_Librarian.cshtml";
+        }
+        else if (_sessionUser.RoleId == (int)RoleType.Patron)
+        {
+            Layout = "~/Views/Shared/_Layout_Patron.cshtml";
+        }
+        else // anonymous
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+    }
+    else
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
 }
+
+
+
+@*@{
+            // OLD
+            Layout = "~/Views/Shared/_Layout.cshtml";
+
+}*@

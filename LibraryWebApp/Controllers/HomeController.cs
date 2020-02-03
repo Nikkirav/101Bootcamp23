@@ -74,6 +74,8 @@ namespace LibraryWebApp.Controllers
                 {
                     UserModel _userModel = Mapper.UserToUserModel(_result.ListOfUsers[0]);
 
+
+                    // store the userModel in Global session
                     Session["UserSession"] = _userModel;
 
                     // Advanced Auth LMS

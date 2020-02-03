@@ -170,6 +170,8 @@
     <Content Include="Views\Home\Register.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Shared\_Layout_Administrator.cshtml" />
+    <Content Include="Views\Shared\_Layout_Patron.cshtml" />
+    <Content Include="Views\Shared\_Layout_Librarian.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

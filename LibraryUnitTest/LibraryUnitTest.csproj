@@ -47,9 +47,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="UserOperationDALUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -63,6 +64,10 @@
     <ProjectReference Include="..\LibraryCommon\LibraryCommon.csproj">
       <Project>{64b825b0-dec3-4725-a545-749f69f5ae6a}</Project>
       <Name>LibraryCommon</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LibraryDatabaseAccessLayer\LibraryDatabaseAccessLayer.csproj">
+      <Project>{5C6DD1E9-FDCD-48DD-8040-6DA0AC22C3A0}</Project>
+      <Name>LibraryDatabaseAccessLayer</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />

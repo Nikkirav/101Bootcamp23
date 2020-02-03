@@ -31,6 +31,7 @@ namespace LibraryWebApp.Common
             _userModel.RoleId = inUser.RoleId;
             _userModel.RoleName = Mapper.RoleIdToRoleName(inUser.RoleId);
             _userModel.UserId = inUser.UserId;
+            _userModel.Username = inUser.Username;
             return _userModel;
         }
 

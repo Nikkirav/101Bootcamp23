@@ -1,4 +1,5 @@
 ﻿using LibraryCommon;
+using LibraryCommon.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -8,30 +9,32 @@ using System.Threading.Tasks;
 
 namespace LibraryDatabaseAccessLayer
 {
-  
-    public class UserOperationsDAL
-    {
 
-        // properties
-      
+    public class UserOperationsDAL : IUserOperationsDAL
+    {
 
         // fields
         private IDbConnection _connection;
         private Logger _logger;
-               
+
+        // properties
+        public IDbConnection Connection { get => _connection; set => _connection = value; }
+
         // properties
 
         // constructors
-        public UserOperationsDAL(IDbConnection inConnection) 
+        public UserOperationsDAL(IDbConnection inConnection)
         {
             // 3.f create a db connection
             this._connection = inConnection;
             this._logger = new Logger(inConnection);
         }
 
+        public UserOperationsDAL() { }
+
 
         // methods
-        public Result RegisterUserToDatabase(User inUser) 
+        public Result RegisterUserToDatabase(User inUser)
         {
             // declare variables and initialize
             Result _result = new Result();
@@ -42,7 +45,7 @@ namespace LibraryDatabaseAccessLayer
             // need to call one or two stored procedures
             // if dup, only call check for dup, end, return error
             // if no dup, call second sp add user, return succcess message
-            
+
             try
             {
                 // sp check for dup
@@ -91,10 +94,10 @@ namespace LibraryDatabaseAccessLayer
                         int _firstNamePosition = _reader.GetOrdinal("FirstName");
                         int _lastNamePosition = _reader.GetOrdinal("LastName");
                         int _usernamePosition = _reader.GetOrdinal("Username");
-                        int _passwordPosition = _reader.GetOrdinal("Password");                      
+                        int _passwordPosition = _reader.GetOrdinal("Password");
                         int _userIdPosition = _reader.GetOrdinal("UserId");
 
-                        while (_reader.Read()) 
+                        while (_reader.Read())
                         {
                             User _currentUser = new User();
                             _currentUser.FirstName = _reader.GetString(_firstNamePosition);
@@ -104,7 +107,7 @@ namespace LibraryDatabaseAccessLayer
                             _currentUser.UserId = _reader.GetInt32(_userIdPosition);
 
                             // add to list
-                            _listOfUsers.Add(_currentUser);                        
+                            _listOfUsers.Add(_currentUser);
                         }
                     }
 
@@ -180,8 +183,8 @@ namespace LibraryDatabaseAccessLayer
             }
             catch (Exception ex)
             {
-                 _logger.LogException(ex);
-                 throw;
+                _logger.LogException(ex);
+                throw;
             }
 
             return _result;
@@ -211,7 +214,7 @@ namespace LibraryDatabaseAccessLayer
                     // parameter
                     // @parm_userid int= 0,
                     // @parm_username varchar(255) = '',
-	                // @parm_password varchar(255) = ''
+                    // @parm_password varchar(255) = ''
                     IDbDataParameter _parameterUsername = _command.CreateParameter();
                     _parameterUsername.DbType = DbType.String;
                     _parameterUsername.ParameterName = "@parm_username";
@@ -254,7 +257,7 @@ namespace LibraryDatabaseAccessLayer
 
                             // add to list
                             _listOfUsers.Add(_currentUser);
-                            
+
                         }
 
 
