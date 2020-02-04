@@ -16,15 +16,20 @@ namespace LibraryWebApp.Controllers
     {
 
         // fields
-       
+
         // properties
 
         // constuctors
-      
 
+
+
+        
+
+        [HttpGet]
         public ActionResult Index()
         {
-            return View();
+            //return View();
+            return RedirectToAction("Login", "Home");
         }
 
         //public ActionResult About()
@@ -40,6 +45,15 @@ namespace LibraryWebApp.Controllers
 
         //    return View();
         //}
+
+
+        [HttpGet]
+        public ActionResult Books()
+        {
+
+            return View();
+        
+        }
 
 
 
@@ -82,7 +96,7 @@ namespace LibraryWebApp.Controllers
                     Session["AUTHUsername"] = _userModel.Username;
                     Session["AUTHRoles"] = _userModel.RoleName;
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Main", "Home");
                 }
                 else
                 {
@@ -98,6 +112,41 @@ namespace LibraryWebApp.Controllers
             }
 
         }
+
+
+        [HttpGet]
+        // TODO: [MustBeLoggedIn]
+        public ActionResult Logout() 
+        {
+            // logout code
+            // TODO: FormsAuthentication.SignOut();
+            Session.Abandon(); // it will clear the session at the end of request
+            return RedirectToAction("Index", "Home");
+        
+        }
+
+        // Register GET
+        [HttpGet]
+        public ActionResult Main()
+        {
+
+            return View();
+        
+        }
+
+
+        // Register GET
+        [HttpPost]
+        public ActionResult Main(BooksModel booksModel)
+        {
+
+            return View();
+
+        }
+
+
+
+
 
 
         // Register GET
@@ -150,6 +199,15 @@ namespace LibraryWebApp.Controllers
 
             }
           
+        }
+
+        
+        [HttpGet]
+        public ActionResult Users()
+        {
+
+            return View();
+
         }
 
 

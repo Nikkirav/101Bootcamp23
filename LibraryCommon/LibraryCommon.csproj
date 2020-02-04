@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Enumerations.cs" />
     <Compile Include="Fakes\FakeUserOperationsDAL.cs" />
+    <Compile Include="Hashing.cs" />
     <Compile Include="Interfaces\IUserOperationsDAL.cs" />
     <Compile Include="Logger.cs" />
     <Compile Include="Result.cs" />
