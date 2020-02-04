@@ -34,7 +34,6 @@ namespace LibraryCommon
                 _hash += theByte.ToString("x2");
             }
             return _hash;
-
         }
 
         public string SHA256HashWithSalt(string inInputValue, string inSalt)

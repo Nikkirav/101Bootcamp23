@@ -125,6 +125,16 @@ namespace LibraryWebApp.Controllers
         
         }
 
+
+        [HttpGet]
+        public ActionResult GenresAuthors()
+        {
+
+
+            return View();
+        }
+
+
         // Register GET
         [HttpGet]
         public ActionResult Main()

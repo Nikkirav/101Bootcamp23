@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data.SqlClient;
 using LibraryCommon;
-using LibraryCommon.Fakes;
 using LibraryCommon.Interfaces;
 using LibraryDatabaseAccessLayer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -34,19 +33,19 @@ namespace LibraryUnitTest
         public void UserOpertionsDAL_RegisterUser_AddUserSuccess()
         {
 
-            // arrange
-            // first attempt - using a fake
-            //IUserOperationsDAL _userOperationsDAL = new FakeUserOperationsDAL(); OLD
-            // NEW
-            IUserOperationsDAL _userOperationsDAL = new UserOperationsDAL();            
-            _userOperationsDAL.Connection = new SqlConnection(_conn);
+            //// arrange
+            //// first attempt - using a fake
+            ////IUserOperationsDAL _userOperationsDAL = new FakeUserOperationsDAL(); OLD
+            //// NEW
+            //IUserOperationsDAL _userOperationsDAL = new UserOperationsDAL();            
+            //_userOperationsDAL.Connection = new SqlConnection(_conn);
 
-            // act
-            Result _result = _userOperationsDAL.RegisterUserToDatabase(_user);
+            //// act
+            //Result _result = _userOperationsDAL.RegisterUserToDatabase(_user);
 
-            // assert
-            Assert.AreEqual(ResultType.Success, _result.Type);
-            Assert.AreEqual("User registered.", _result.Message);
+            //// assert
+            //Assert.AreEqual(ResultType.Success, _result.Type);
+            //Assert.AreEqual("User registered.", _result.Message);
 
         }
 
@@ -55,17 +54,17 @@ namespace LibraryUnitTest
         public void UserOpertionsDAL_RegisterUser_AddUserDuplicateFailure()
         {
 
-            // arrange
-            string _conn = "";
-            IUserOperationsDAL _userOperationsDAL = new FakeUserOperationsDAL();
-            _userOperationsDAL.Connection = new SqlConnection(_conn);
+            //// arrange
+            //string _conn = "";
+            //IUserOperationsDAL _userOperationsDAL = new FakeUserOperationsDAL();
+            //_userOperationsDAL.Connection = new SqlConnection(_conn);
 
 
-            // act
-            Result _result = _userOperationsDAL.RegisterUserToDatabase(_user);
+            //// act
+            //Result _result = _userOperationsDAL.RegisterUserToDatabase(_user);
 
-            // assert
-            Assert.AreEqual(ResultType.Failure, _result.Type);
+            //// assert
+            //Assert.AreEqual(ResultType.Failure, _result.Type);
 
 
         }
