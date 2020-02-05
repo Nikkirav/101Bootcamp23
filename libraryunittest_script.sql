@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [Library]    Script Date: 2/4/2020 4:53:41 PM ******/
+/****** Object:  Database [LibraryUnitTest]    Script Date: 2/4/2020 6:08:34 PM ******/
 CREATE DATABASE [LibraryUnitTest]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -9,11 +9,11 @@ CREATE DATABASE [LibraryUnitTest]
 ( NAME = N'LibraryUnitTest_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL15.SQLEXPRESS01\MSSQL\DATA\LibraryUnitTest_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
  WITH CATALOG_COLLATION = DATABASE_DEFAULT
 GO
-ALTER DATABASE [Library] SET COMPATIBILITY_LEVEL = 150
+ALTER DATABASE [LibraryUnitTest] SET COMPATIBILITY_LEVEL = 150
 GO
 IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
 begin
-EXEC [Library].[dbo].[sp_fulltext_database] @action = 'enable'
+EXEC [LibraryUnitTest].[dbo].[sp_fulltext_database] @action = 'enable'
 end
 GO
 ALTER DATABASE [LibraryUnitTest] SET ANSI_NULL_DEFAULT OFF 
@@ -78,7 +78,7 @@ ALTER DATABASE [LibraryUnitTest] SET QUERY_STORE = OFF
 GO
 USE [LibraryUnitTest]
 GO
-/****** Object:  Table [dbo].[Author]    Script Date: 2/4/2020 4:53:41 PM ******/
+/****** Object:  Table [dbo].[Author]    Script Date: 2/4/2020 6:08:34 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -96,7 +96,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Book]    Script Date: 2/4/2020 4:53:41 PM ******/
+/****** Object:  Table [dbo].[Book]    Script Date: 2/4/2020 6:08:34 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -115,7 +115,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Genre]    Script Date: 2/4/2020 4:53:41 PM ******/
+/****** Object:  Table [dbo].[Genre]    Script Date: 2/4/2020 6:08:34 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -131,7 +131,7 @@ PRIMARY KEY CLUSTERED
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  View [dbo].[vw_Book_Genre_Author]    Script Date: 2/4/2020 4:53:41 PM ******/
+/****** Object:  View [dbo].[vw_Book_Genre_Author]    Script Date: 2/4/2020 6:08:34 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -145,7 +145,7 @@ First_Name + ' ' + Last_Name AS Author FROM Book b
 INNER JOIN Genre g ON g.GenreID = b.GenreID_FK
 INNER JOIN Author a ON a.AuthorID = b.Book_AuthorID_FK;
 GO
-/****** Object:  Table [dbo].[Roles]    Script Date: 2/4/2020 4:53:41 PM ******/
+/****** Object:  Table [dbo].[Roles]    Script Date: 2/4/2020 6:08:34 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -159,7 +159,7 @@ CREATE TABLE [dbo].[Roles](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 2/4/2020 4:53:41 PM ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 2/4/2020 6:08:34 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -177,7 +177,7 @@ CREATE TABLE [dbo].[Users](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  View [dbo].[vw_Users_Role]    Script Date: 2/4/2020 4:53:41 PM ******/
+/****** Object:  View [dbo].[vw_Users_Role]    Script Date: 2/4/2020 6:08:34 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -192,7 +192,7 @@ SELECT	UserId,
 		LastName, UserName, Password, RoleID, RoleName from Users u
 INNER JOIN Roles r ON r.RoleID = u.RoleID_FK;
 GO
-/****** Object:  Table [dbo].[Lending]    Script Date: 2/4/2020 4:53:41 PM ******/
+/****** Object:  Table [dbo].[Lending]    Script Date: 2/4/2020 6:08:34 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -210,7 +210,7 @@ CREATE TABLE [dbo].[Lending](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  View [dbo].[vw_Books_Main]    Script Date: 2/4/2020 4:53:41 PM ******/
+/****** Object:  View [dbo].[vw_Books_Main]    Script Date: 2/4/2020 6:08:34 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -235,7 +235,7 @@ CREATE VIEW [dbo].[vw_Books_Main] AS
    [CheckOutDate], [ReturnedDate] FROM Lending l 
   INNER JOIN Users u ON u.UserID = l.UserID_FK) jn ON jn.BookID_FK = b.BookID
 GO
-/****** Object:  Table [dbo].[LoggingError]    Script Date: 2/4/2020 4:53:41 PM ******/
+/****** Object:  Table [dbo].[LoggingError]    Script Date: 2/4/2020 6:08:34 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -338,6 +338,8 @@ INSERT [dbo].[Users] ([UserID], [LastName], [FirstName], [UserName], [Password],
 GO
 INSERT [dbo].[Users] ([UserID], [LastName], [FirstName], [UserName], [Password], [RoleID_FK]) VALUES (8, N'tester2', N'tester2', N'tester2', N'password123', 3)
 GO
+INSERT [dbo].[Users] ([UserID], [LastName], [FirstName], [UserName], [Password], [RoleID_FK]) VALUES (12, N'Tester1234', N'Tester1234', N'tester1234', N'password123', 3)
+GO
 SET IDENTITY_INSERT [dbo].[Users] OFF
 GO
 ALTER TABLE [dbo].[Book]  WITH CHECK ADD  CONSTRAINT [FK_BookAuthor] FOREIGN KEY([Book_AuthorID_FK])
@@ -365,7 +367,7 @@ REFERENCES [dbo].[Roles] ([RoleID])
 GO
 ALTER TABLE [dbo].[Users] CHECK CONSTRAINT [FK_Users_Roles]
 GO
-/****** Object:  StoredProcedure [dbo].[sp_get_books_main]    Script Date: 2/4/2020 4:53:41 PM ******/
+/****** Object:  StoredProcedure [dbo].[sp_get_books_main]    Script Date: 2/4/2020 6:08:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -399,7 +401,7 @@ BEGIN
 			  ,[CheckOutDate]
 			  ,[DueDateBack]
 			  ,[ReturnedDate]
-			FROM [Library].[dbo].[vw_Books_Main]
+			FROM [dbo].[vw_Books_Main]
 		END
 	ELSE 
 		BEGIN
@@ -413,16 +415,17 @@ BEGIN
 			  ,[CheckOutDate]
 			  ,[DueDateBack]
 			  ,[ReturnedDate]
-			FROM [Library].[dbo].[vw_Books_Main]
+			FROM [dbo].[vw_Books_Main]
 			WHERE UserID IS NULL OR UserID = @parm_UserID
 		END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_get_users]    Script Date: 2/4/2020 4:53:41 PM ******/
+/****** Object:  StoredProcedure [dbo].[sp_get_users]    Script Date: 2/4/2020 6:08:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+
 -- =============================================
 -- Author:		<Author,,Name>
 -- Create date: <Create Date,,>
@@ -448,7 +451,7 @@ BEGIN
 		  ,[UserName]
 		  ,[Password]
 		  ,[RoleID_FK]
-		FROM [Library].[dbo].[Users];
+		FROM [dbo].[Users];
 	END
 	ELSE IF (@parm_userid <> 0)
 	BEGIN
@@ -459,7 +462,7 @@ BEGIN
 		   ,[UserName]
 		   ,[Password]
 		   ,[RoleID_FK]
-		FROM [Library].[dbo].[Users]
+		FROM [dbo].[Users]
 		WHERE UserID = @parm_userid;
 	END
 	-- checking for duplicates for register process
@@ -472,7 +475,7 @@ BEGIN
 		   ,[UserName]
 		   ,[Password]
 		   ,[RoleID_FK]
-		FROM [Library].[dbo].[Users]
+		FROM [dbo].[Users]
 		WHERE [UserName] = @parm_username;
 	END
 	-- checking for login process
@@ -485,12 +488,12 @@ BEGIN
 		   ,[UserName]
 		   ,[Password]
 		   ,[RoleID_FK]
-		FROM [Library].[dbo].[Users]
+		FROM [dbo].[Users]
 		WHERE [UserName] = @parm_username and [Password] = @parm_password;
 	END
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_LogException]    Script Date: 2/4/2020 4:53:41 PM ******/
+/****** Object:  StoredProcedure [dbo].[sp_LogException]    Script Date: 2/4/2020 6:08:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -528,7 +531,7 @@ BEGIN
             @parmLogdate)
 END
 GO
-/****** Object:  StoredProcedure [dbo].[sp_register_user]    Script Date: 2/4/2020 4:53:41 PM ******/
+/****** Object:  StoredProcedure [dbo].[sp_register_user]    Script Date: 2/4/2020 6:08:35 PM ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -573,5 +576,5 @@ END
 GO
 USE [master]
 GO
-ALTER DATABASE [Library] SET  READ_WRITE 
+ALTER DATABASE [LibraryUnitTest] SET  READ_WRITE 
 GO
