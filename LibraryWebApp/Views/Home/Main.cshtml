@@ -1,7 +1,187 @@
-﻿
+﻿@using LibraryWebApp.Models
+@model LibraryWebApp.Models.BooksModel
+
+
 @{
     ViewBag.Title = "Main";
 }
 
 <h2>Main</h2>
 
+@*<h3>Example Static table using DataTable Jquery</h3>
+
+
+<table id="tblexample" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th>BookID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Genre</th>
+            <th>UserID</th>
+            <th>Borrower</th>
+            <th>CheckOutDate</th>
+            <th>DueDateBack</th>
+            <th>ReturnedDate</th>
+            <th>BookStatus</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Dancing with Jesus: Featuring a Host of Miraculous Moves</td>
+            <td>Sam Stall</td>
+            <td>Humor</td>
+            <td>3</td>
+            <td>Wells, Heather</td>
+            <td>2002-06-01 00:00:00.000</td>
+            <td>2002-06-21 00:00:00.000</td>
+            <td></td>
+            <td>PASSED DUE</td>
+        </tr>       
+        <tr>
+            <td>4</td>
+            <td>Carrie Fisher A Life on the Edge</td>
+            <td>Sheila Weller</td>
+            <td>Autobiography</td>
+            <td>2</td>
+            <td>Adams, Dillan</td>
+            <td>2020-02-04 00:00:00.000</td>
+            <td>2020-02-25 00:00:00.000</td>
+            <td>2019-02-10 00:00:00.000</td>
+            <td>ON LOAN</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>The Hobbit; or, There and Back Again (Hardcover)</td>
+            <td>J. R. R. Tolkien</td>
+            <td>Fiction</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>AVAILABLE</td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <th>BookID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Genre</th>
+            <th>UserID</th>
+            <th>Borrower</th>
+            <th>CheckOutDate</th>
+            <th>DueDateBack</th>
+            <th>ReturnedDate</th>
+            <th>BookStatus</th>
+        </tr>
+    </tfoot>
+</table>*@
+
+
+
+
+
+
+<!--   https://datatables.net/  
+<h3>Example Dynamic table (foreach ...) using DataTable Jquery</h3>
+    -->
+
+<table id="tblbookslending" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th hidden="hidden"></th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Genre</th>
+            <th hidden="hidden"></th>
+            <th>Borrower</th>
+            <th>CheckOutDate</th>
+            <th>DueDateBack</th>
+            <th>ReturnedDate</th>
+            <th>BookStatus</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{           
+            foreach (BookModel _current in Model.ListOfBookModel)
+            {
+                <tr>
+                    <td hidden="hidden">
+                        @Html.Hidden(_current.BookID)
+                    </td>
+                    <td>
+                        @_current.Title
+                    </td>
+                    <td>
+                        @_current.Author
+                    </td>
+                    <td>
+                        @_current.Genre
+                    </td>
+                    <td hidden="hidden">
+                        @Html.Hidden(_current.UserID)
+                    </td>
+                    <td>
+                        @_current.Borrower
+                    </td>
+                    <td>
+                        @_current.CheckOutDate
+                    </td>
+                    <td>
+                        @_current.DueDateBack
+                    </td>
+                    <td>
+                        @_current.ReturnedDate
+                    </td>
+                    <td>
+                        @_current.BookStatus
+                    </td>
+                </tr>
+            
+            }
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th hidden="hidden"></th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Genre</th>
+            <th hidden="hidden"></th>
+            <th>Borrower</th>
+            <th>CheckOutDate</th>
+            <th>DueDateBack</th>
+            <th>ReturnedDate</th>
+            <th>BookStatus</th>
+        </tr>
+    </tfoot>
+
+</table>
+
+
+
+
+
+
+
+
+@section scripts {
+
+    <script type="text/javascript" language="javascript">
+        $(document).ready(function () {
+
+            //$('#tblexample').DataTable();
+
+            //$('#tblexample').DataTable({
+            //    "columnDefs": [{ "orderable": false, "targets": 6 }, { "orderable": false, "targets": 7 }]
+            //});
+
+            $('#tblbookslending').DataTable();
+
+        });
+    </script>
+
+}

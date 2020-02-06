@@ -60,5 +60,37 @@ namespace LibraryWebApp.Common
 
             return _user;
         }
+
+        internal static BooksModel ResultsBooksToBooksModel(ResultBooks inResultsBooks)
+        {
+            BooksModel _booksModel = new BooksModel();
+            List<BookModel> _list = new List<BookModel>();
+            _booksModel.DialogMessage = inResultsBooks.Message;
+            _booksModel.DialogMessageType = inResultsBooks.Type.ToString();
+
+            foreach (var _current in inResultsBooks.ListOfBooks)
+            {
+                // map properties
+                 BookModel _book = new BookModel();
+                _book.Author = _current.Author;
+                _book.BookID = _current.BookID.ToString();
+                _book.BookStatus = _current.BookStatus;
+                _book.Title = _current.Title;
+                _book.Genre = _current.Genre;
+
+                // nullable
+                _book.UserID = _current.UserID.ToString();
+                _book.Borrower = _current.Borrower == null ? null : _current.Borrower;
+                _book.CheckOutDate = _current.CheckOutDate == DateTime.MinValue ? null : _current.CheckOutDate.ToString(); // TODO: format
+                _book.DueDateBack = _current.DueDateBack == DateTime.MinValue ? null : _current.DueDateBack.ToString(); // TODO: format
+                _book.ReturnedDate = _current.ReturnedDate == DateTime.MinValue ? null : _current.ReturnedDate.ToString(); // TODO: format
+
+                // add to the return list
+                _list.Add(_book);
+            }
+
+            _booksModel.ListOfBookModel = _list;
+            return _booksModel;
+        }
     }
 }

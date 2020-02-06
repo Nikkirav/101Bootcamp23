@@ -8,8 +8,7 @@ namespace LibraryWebApp.Models
     public class BooksModel : BaseModel
     {
 
-
-
+        public IEnumerable<BookModel> ListOfBookModel { get; set; }
 
 
     }

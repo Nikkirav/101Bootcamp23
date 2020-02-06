@@ -140,20 +140,26 @@ namespace LibraryWebApp.Controllers
         public ActionResult Main()
         {
 
-            return View();
+            BooksModel model = new BooksModel();
+            ViewBag.Message = "Main page";
+
+            // create bll object
+            BookOperationsBLL _bll = new BookOperationsBLL(base.Connection);
+            // TODO: might be userid or might be 0
+            int _userId = 0;
+
+            // get the books for the database based on userid
+            ResultBooks _listOfBooks = _bll.GetBooksPassThru(_userId);
+
+
+            // Map ResultBooks to BooksModel
+            model = Mapper.ResultsBooksToBooksModel(_listOfBooks);
+            return View(model);
         
         }
 
 
-        // Register GET
-        [HttpPost]
-        public ActionResult Main(BooksModel booksModel)
-        {
-
-            return View();
-
-        }
-
+       
 
 
 

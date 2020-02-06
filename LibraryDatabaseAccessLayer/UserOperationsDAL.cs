@@ -33,7 +33,19 @@ namespace LibraryDatabaseAccessLayer
         public UserOperationsDAL() { }
 
 
+
+
+
+
         // methods
+        //// TODO: implement this.
+        //public Result DeleteUserFromDatabase(User inUser) 
+        //{ 
+        
+        
+        //}
+        
+        
         public Result RegisterUserToDatabase(User inUser)
         {
             // declare variables and initialize
@@ -183,6 +195,7 @@ namespace LibraryDatabaseAccessLayer
             }
             catch (Exception ex)
             {
+                _connection.Close();
                 _logger.LogException(ex);
                 throw;
             }
