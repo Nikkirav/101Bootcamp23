@@ -34,18 +34,189 @@ namespace LibraryDatabaseAccessLayer
 
 
 
-
-
-
         // methods
         //// TODO: implement this.
         //public Result DeleteUserFromDatabase(User inUser) 
         //{ 
-        
-        
+
+
         //}
-        
-        
+
+        public ResultUsers GetUsersAndRolesFromDatabase(int inUserId)
+        {
+            ResultUsers _result = new ResultUsers();
+            List<User> _list = new List<User>();
+
+            try
+            {
+                using (IDbCommand _command = this._connection.CreateCommand())
+                {
+
+                    // open connection
+                    this._connection.Open();
+
+                    // set the command properties
+                    _command.CommandText = "sp_get_users_and_roles";
+                    _command.CommandType = System.Data.CommandType.StoredProcedure;
+                    _command.CommandTimeout = 15;
+
+                    IDbDataParameter _parameterUserId = _command.CreateParameter();
+                    _parameterUserId.DbType = DbType.Int32;
+                    _parameterUserId.ParameterName = "@parm_userid";
+                    _parameterUserId.Value = inUserId;
+                    _command.Parameters.Add(_parameterUserId);
+
+
+                    using (IDataReader _reader = _command.ExecuteReader())
+                    {
+
+                          // [UserId]
+                          //,[FirstName]
+                          //,[LastName]
+                          //,[UserName]
+                          //,[Password]
+                          //,[RoleID]
+                          //,[RoleName]
+
+                        int _userIdPosition = _reader.GetOrdinal("UserId");
+                        int _firstNamePosition = _reader.GetOrdinal("FirstName");
+                        int _lastNamePosition = _reader.GetOrdinal("LastName");
+                        int _userNamePosition = _reader.GetOrdinal("UserName");
+                        int _passwordPosition = _reader.GetOrdinal("Password");
+                        int _roleidPosition = _reader.GetOrdinal("RoleID");
+                        int _roleNamePosition = _reader.GetOrdinal("RoleName");
+
+                        while (_reader.Read())
+                        {
+                            User _current = new User();
+                            _current.UserId = _reader.GetInt32(_userIdPosition);
+                            _current.FirstName = _reader.GetString(_firstNamePosition);
+                            _current.LastName = _reader.GetString(_lastNamePosition);
+                            _current.Username = _reader.GetString(_userNamePosition);
+                            _current.Password = _reader.GetString(_passwordPosition);
+                            _current.RoleId = _reader.GetInt32(_roleidPosition);
+                            _current.RoleName = _reader.GetString(_roleNamePosition);
+                            _list.Add(_current);
+                        }
+                    }
+                    _connection.Close();
+                    _result.Type = ResultType.Success;
+                    _result.Message = "Get users and roles succeeded.";
+                    _result.ListOfUsers = _list;
+                }
+            }
+            catch (Exception ex)
+            {
+                _connection.Close();
+                _result.Type = ResultType.Failure;
+                _result.Message = "Get users and roles failed.";
+                _logger.LogException(ex);
+                throw;
+            }
+            return _result;
+        }
+
+
+
+        public ResultUsers LoginUserToDatabase(User inUser)
+        {
+            // declare variables
+            List<User> _listOfUsers = new List<User>();
+            ResultUsers _result = new ResultUsers();
+
+            try
+            {
+
+                // 3.g create a db commmnd
+                using (IDbCommand _command = this._connection.CreateCommand())
+                {
+
+                    // open connection
+                    this._connection.Open();
+
+                    // set the command properties
+                    _command.CommandText = "sp_get_users";
+                    _command.CommandType = System.Data.CommandType.StoredProcedure;
+                    _command.CommandTimeout = 15;
+
+                    // parameter
+                    // @parm_userid int= 0,
+                    // @parm_username varchar(255) = '',
+                    // @parm_password varchar(255) = ''
+                    IDbDataParameter _parameterUsername = _command.CreateParameter();
+                    _parameterUsername.DbType = DbType.String;
+                    _parameterUsername.ParameterName = "@parm_username";
+                    _parameterUsername.Value = inUser.Username;
+                    _command.Parameters.Add(_parameterUsername);
+
+                    IDbDataParameter _parameterPassword = _command.CreateParameter();
+                    _parameterPassword.DbType = DbType.String;
+                    _parameterPassword.ParameterName = "@parm_password";
+                    _parameterPassword.Value = inUser.Password;
+                    _command.Parameters.Add(_parameterPassword);
+
+                    IDbDataParameter _parameterUserId = _command.CreateParameter();
+                    _parameterUserId.DbType = DbType.Int32;
+                    _parameterUserId.ParameterName = "@parm_userid";
+                    _parameterUserId.Value = 0;
+                    _command.Parameters.Add(_parameterUserId);
+
+                    // loop to read rows
+                    // 3.h run the command
+                    using (IDataReader _reader = _command.ExecuteReader())
+                    {
+
+                        int _firstNamePosition = _reader.GetOrdinal("FirstName");
+                        int _lastNamePosition = _reader.GetOrdinal("LastName");
+                        int _usernamePosition = _reader.GetOrdinal("Username");
+                        int _passwordPosition = _reader.GetOrdinal("Password");
+                        int _userIdPosition = _reader.GetOrdinal("UserId");
+                        int _roleIdPosition = _reader.GetOrdinal("RoleID_FK");
+
+                        while (_reader.Read())
+                        {
+                            User _currentUser = new User();
+                            _currentUser.FirstName = _reader.GetString(_firstNamePosition);
+                            _currentUser.LastName = _reader.GetString(_lastNamePosition);
+                            _currentUser.Password = _reader.GetString(_passwordPosition);
+                            _currentUser.Username = _reader.GetString(_usernamePosition);
+                            _currentUser.UserId = _reader.GetInt32(_userIdPosition);
+                            _currentUser.RoleId = _reader.GetInt32(_roleIdPosition);
+
+                            // add to list
+                            _listOfUsers.Add(_currentUser);
+
+                        }
+
+
+                        // if found 
+                        if (_listOfUsers.Count > 0)
+                        {
+                            _result.Message = "Username/password found.";
+                            _result.Type = ResultType.Success;
+
+                        }
+                        else // out found
+                        {
+                            _result.Message = "Username/password not found.";
+                            _result.Type = ResultType.Failure;
+
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                this._connection.Close();
+                _logger.LogException(ex);
+                throw;
+            }
+
+            _result.ListOfUsers = _listOfUsers;
+            return _result;
+        }
+
+
         public Result RegisterUserToDatabase(User inUser)
         {
             // declare variables and initialize
@@ -203,103 +374,7 @@ namespace LibraryDatabaseAccessLayer
             return _result;
         }
 
-        public ResultUsers LoginUserToDatabase(User inUser)
-        {
-            // declare variables
-            List<User> _listOfUsers = new List<User>();
-            ResultUsers _result = new ResultUsers();
 
-            try
-            {
-
-                // 3.g create a db commmnd
-                using (IDbCommand _command = this._connection.CreateCommand())
-                {
-
-                    // open connection
-                    this._connection.Open();
-
-                    // set the command properties
-                    _command.CommandText = "sp_get_users";
-                    _command.CommandType = System.Data.CommandType.StoredProcedure;
-                    _command.CommandTimeout = 15;
-
-                    // parameter
-                    // @parm_userid int= 0,
-                    // @parm_username varchar(255) = '',
-                    // @parm_password varchar(255) = ''
-                    IDbDataParameter _parameterUsername = _command.CreateParameter();
-                    _parameterUsername.DbType = DbType.String;
-                    _parameterUsername.ParameterName = "@parm_username";
-                    _parameterUsername.Value = inUser.Username;
-                    _command.Parameters.Add(_parameterUsername);
-
-                    IDbDataParameter _parameterPassword = _command.CreateParameter();
-                    _parameterPassword.DbType = DbType.String;
-                    _parameterPassword.ParameterName = "@parm_password";
-                    _parameterPassword.Value = inUser.Password;
-                    _command.Parameters.Add(_parameterPassword);
-
-                    IDbDataParameter _parameterUserId = _command.CreateParameter();
-                    _parameterUserId.DbType = DbType.Int32;
-                    _parameterUserId.ParameterName = "@parm_userid";
-                    _parameterUserId.Value = 0;
-                    _command.Parameters.Add(_parameterUserId);
-
-                    // loop to read rows
-                    // 3.h run the command
-                    using (IDataReader _reader = _command.ExecuteReader())
-                    {
-
-                        int _firstNamePosition = _reader.GetOrdinal("FirstName");
-                        int _lastNamePosition = _reader.GetOrdinal("LastName");
-                        int _usernamePosition = _reader.GetOrdinal("Username");
-                        int _passwordPosition = _reader.GetOrdinal("Password");
-                        int _userIdPosition = _reader.GetOrdinal("UserId");
-                        int _roleIdPosition = _reader.GetOrdinal("RoleID_FK");
-
-                        while (_reader.Read())
-                        {
-                            User _currentUser = new User();
-                            _currentUser.FirstName = _reader.GetString(_firstNamePosition);
-                            _currentUser.LastName = _reader.GetString(_lastNamePosition);
-                            _currentUser.Password = _reader.GetString(_passwordPosition);
-                            _currentUser.Username = _reader.GetString(_usernamePosition);
-                            _currentUser.UserId = _reader.GetInt32(_userIdPosition);
-                            _currentUser.RoleId = _reader.GetInt32(_roleIdPosition);
-
-                            // add to list
-                            _listOfUsers.Add(_currentUser);
-
-                        }
-
-
-                        // if found 
-                        if (_listOfUsers.Count > 0)
-                        {
-                            _result.Message = "Username/password found.";
-                            _result.Type = ResultType.Success;
-
-                        }
-                        else // out found
-                        {
-                            _result.Message = "Username/password not found.";
-                            _result.Type = ResultType.Failure;
-
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                this._connection.Close();
-                _logger.LogException(ex);
-                throw;
-            }
-
-            _result.ListOfUsers = _listOfUsers;
-            return _result;
-        }
     }
 
 }

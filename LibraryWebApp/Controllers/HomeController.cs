@@ -1,6 +1,7 @@
 ﻿using LibraryBusinessLogicLayer;
 using LibraryCommon;
 using LibraryWebApp.Common;
+using LibraryWebApp.Filters;
 using LibraryWebApp.Models;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace LibraryWebApp.Controllers
 
 
 
-        
+
 
         [HttpGet]
         public ActionResult Index()
@@ -52,7 +53,7 @@ namespace LibraryWebApp.Controllers
         {
 
             return View();
-        
+
         }
 
 
@@ -68,7 +69,7 @@ namespace LibraryWebApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult Login(LoginModel inModel) 
+        public ActionResult Login(LoginModel inModel)
         {
 
             if (ModelState.IsValid)
@@ -115,14 +116,14 @@ namespace LibraryWebApp.Controllers
 
 
         [HttpGet]
-        // TODO: [MustBeLoggedIn]
-        public ActionResult Logout() 
+        [MustBeLoggedIn]
+        public ActionResult Logout()
         {
             // logout code
             // TODO: FormsAuthentication.SignOut();
             Session.Abandon(); // it will clear the session at the end of request
             return RedirectToAction("Index", "Home");
-        
+
         }
 
 
@@ -137,32 +138,49 @@ namespace LibraryWebApp.Controllers
 
         // Register GET
         [HttpGet]
+
+        [MustBeLoggedIn]
         public ActionResult Main()
         {
 
             BooksModel model = new BooksModel();
             ViewBag.Message = "Main page";
+            ResultBooks _listOfBooks;
 
             // create bll object
             BookOperationsBLL _bll = new BookOperationsBLL(base.Connection);
-            // TODO: might be userid or might be 0
-            int _userId = 0;
 
-            // get the books for the database based on userid
-            ResultBooks _listOfBooks = _bll.GetBooksPassThru(_userId);
+
+            if ((Session["AUTHRoles"].ToString() == RoleType.Administrator.ToString()) ||
+                (Session["AUTHRoles"].ToString() == RoleType.Librarian.ToString()))
+            {
+
+                // stored procedure will return everything
+                int _userId = 0;
+
+                // get the books for the database based on userid
+                _listOfBooks = _bll.GetBooksPassThru(_userId);
+
+            }
+            else
+            {   // Patron
+
+                // stored procedure will return everything
+                UserModel _user = (UserModel)Session["UserSession"];
+
+                // get the books for the database based on userid
+                _listOfBooks = _bll.GetBooksPassThru(_user.UserId);
+
+            }
+
+
 
 
             // Map ResultBooks to BooksModel
             model = Mapper.ResultsBooksToBooksModel(_listOfBooks);
             return View(model);
-        
+
         }
-
-
-       
-
-
-
 
 
         // Register GET
@@ -183,7 +201,6 @@ namespace LibraryWebApp.Controllers
         public ActionResult Register(UserModel inModel)
         {
 
-        
             // 2. valididate the fields have the correct data otherwise (if) send error to user and have
             // them redo the input 
             // data annotations for validation in MVC
@@ -210,22 +227,95 @@ namespace LibraryWebApp.Controllers
             // validation failed, have the user redo the form
             else
             {
-                
+
                 return View(inModel);
 
             }
-          
+
         }
 
-        
+
         [HttpGet]
+        [MustBeInRole(Roles = "Administrator")]
         public ActionResult Users()
         {
+            // create variables
+            ResultUsers _resultUsers = new ResultUsers();
+            UsersModel model = new UsersModel();
 
-            return View();
+            // create bll object - constructor that takes a connection
+            UserOperationsBLL _userOperationsBLL = new UserOperationsBLL(base.Connection);
+
+
+            // call the method 
+            // pass zero to get all users
+            _resultUsers = _userOperationsBLL.GetUsersAndTheirRolesPassThru(0);
+
+
+            // Map it
+            model = Mapper.ResultUsersToUsersModel(_resultUsers);
+
+            return View(model);
 
         }
 
 
+        [HttpPost]
+        [MustBeInRole(Roles = "Administrator")]
+        public ActionResult UserDelete(int id)
+        {
+
+            // TODO: need to do the delete
+
+            return RedirectToAction("Users");
+        }
+
+
+        //[HttpGet]
+        //public ActionResult UserEdit(int id, string firstname, string lastname, string username, string password, int roleid, string rolename)
+        //{
+
+        //    return View();
+        //}
+
+
+        [HttpGet]
+        [MustBeInRole(Roles = "Administrator")]
+        public ActionResult UserEdit(int id)
+        {
+            // pass this out to the view
+            UserModel model = new UserModel();
+
+            // need to go fetch this user
+            UserOperationsBLL _userOperationsBLL = new UserOperationsBLL(base.Connection);
+            
+            // need to pass the id
+            ResultUsers _onlyOne = _userOperationsBLL.GetUsersAndTheirRolesPassThru(id);
+
+            // map it
+            model = Mapper.UserToUserModel(_onlyOne.ListOfUsers[0]); // BIG assumption that index is valid
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [MustBeInRole(Roles = "Administrator")]
+        public ActionResult UserEdit(UserModel model)
+        {
+
+            // need to create bll object
+
+            // map model to common object
+            
+            // need to call method on bll object and mapped object
+            // this will be edit CRUD operation
+
+            // redirect them to the users view or have back button to return to users view
+
+            // need a success message and allow them to go back
+
+            return View();
+        }
     }
 }

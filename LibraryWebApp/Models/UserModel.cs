@@ -31,5 +31,21 @@
 
         public string RoleName { get; set; }
 
+        // list of roles
+        public IEnumerable<RoleModel> RoleList { get; set; }
+
+        // selected value
+        public int SelectedRoleId { get; set; }
+
+
+        public UserModel()
+        {
+            this.RoleList = new List<RoleModel>() { 
+                new RoleModel { RoleId = 1, RoleName = "Administrator"}, 
+                new RoleModel { RoleId = 2, RoleName = "Librarian" }, 
+                new RoleModel { RoleId = 3, RoleName = "Patron"} };
+        
+        }
+
     }
 }

@@ -92,5 +92,20 @@ namespace LibraryWebApp.Common
             _booksModel.ListOfBookModel = _list;
             return _booksModel;
         }
+
+        internal static UsersModel ResultUsersToUsersModel(ResultUsers resultUsers)
+        {
+            UsersModel _usersModel = new UsersModel();
+            List<UserModel> _list = new List<UserModel>();
+
+            foreach (User _current in resultUsers.ListOfUsers)
+            {
+                _list.Add(Mapper.UserToUserModel(_current));
+            }
+
+            // TODO: SET IT _usersModel.ListOfUsers
+            _usersModel.ListOfUsers = _list;
+            return _usersModel;
+        }
     }
 }

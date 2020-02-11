@@ -51,5 +51,11 @@ namespace LibraryBusinessLogicLayer
 
         }
 
+        public ResultUsers GetUsersAndTheirRolesPassThru(int inUserId)
+        {
+            // create a dal object - constructor takes connection
+            UserOperationsDAL _userOperationsDAL = new UserOperationsDAL(this._connection);
+            return _userOperationsDAL.GetUsersAndRolesFromDatabase(inUserId);
+        }
     }
 }
