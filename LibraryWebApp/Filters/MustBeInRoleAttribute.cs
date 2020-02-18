@@ -13,7 +13,6 @@ namespace LibraryWebApp.Filters
             if (this.Roles.Split(',').Any(filterContext.HttpContext.User.IsInRole))
             {
                 base.OnAuthorization(filterContext);
-
             }
             else
             {

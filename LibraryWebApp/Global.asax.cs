@@ -19,7 +19,7 @@ namespace LibraryWebApp
             BundleConfig.RegisterBundles(BundleTable.Bundles);
         }
 
-        // STEP 1 - add this method to the MvcApplication class
+        // STEP 1 - add this event handler to the MvcApplication class
         // STEP 2 - you will need to System.Security.Principal namespaace to resolve the below code
         // STEP 3 - comment this code line by line to make it your own and show your understanding of it
         protected void Application_AcquireRequestState(object sender, EventArgs e)
@@ -41,16 +41,17 @@ namespace LibraryWebApp
             if (Sessroles == null) { Sessroles = ""; }
             string[] roles = Sessroles.Split(',');
 
-            // This class represents the roles of the current user - https://docs.microsoft.com/en-us/dotnet/api/system.security.principal.genericprincipal?view=netframework-4.8
+            // This class represents the roles of the current user - 
+            // https://docs.microsoft.com/en-us/dotnet/api/system.security.principal.genericprincipal?view=netframework-4.8
             // Applications that use Forms authentication will often want to use the GenericPrincipal
             // class (in conjunction with the FormsIdentity class), to create a non-Windows specific 
             // authorization scheme, independent of a Windows domain.
             GenericPrincipal principal = new GenericPrincipal(i, roles);
 
-
-
-            // The HttpContext.Current.User.Identity property (in ASP.NET web app) is populated based on the user identity authenticated at IIS layer. 
-            // For example, if you configure IIS to use windows authentication, this property contains the authenticated windows user account from client.
+            // The HttpContext.Current.User.Identity property (in ASP.NET web app) is populated based on the 
+            // user identity authenticated at IIS layer. 
+            // For example, if you configure IIS to use windows authentication, this property contains the 
+            // authenticated windows user account from client.
             HttpContext.Current.User = principal;
         }
 
