@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibraryUnitTest", "LibraryU
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SQL_Scripts", "SQL_Scripts", "{E3710E09-BD2C-4810-9F9A-2EEC1B0114AE}"
 	ProjectSection(SolutionItems) = preProject
-		library_script.sql = library_script.sql
+		library_script_OLD.sql = library_script_OLD.sql
 		libraryunittest_script.sql = libraryunittest_script.sql
 	EndProjectSection
 EndProject
