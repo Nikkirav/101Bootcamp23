@@ -97,7 +97,6 @@ namespace LibraryCommon
                 _command.ExecuteNonQuery();
                 this._connection.Close();
 
-
             }
         }
 

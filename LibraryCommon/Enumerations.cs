@@ -11,7 +11,6 @@ namespace LibraryCommon
         Not_Set = -1,
         Failure = 0,
         Success = 1
-
     }
 
 

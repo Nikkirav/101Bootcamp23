@@ -51,6 +51,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HashingUnitTest.cs" />
+    <Compile Include="UnitTestRoleBusinessLogic.cs" />
+    <Compile Include="UnitTestPublisherDataAccess.cs" />
+    <Compile Include="UnitTestRoleDataAccess.cs" />
     <Compile Include="UserOperationDALUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

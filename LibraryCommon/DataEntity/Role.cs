@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LibraryCommon
+namespace LibraryCommon.DataEntity
 {
     public class Role
     {
         public int RoleID { get; set; }
         public string RoleName { get; set; }
-
     }
 }

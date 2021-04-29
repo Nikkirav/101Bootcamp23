@@ -12,6 +12,7 @@ namespace LibraryWebApp.Controllers
     {
         // fields
         private IDbConnection _connection;
+        private string _dbConnection;
 
         // properties
         public IDbConnection Connection { get => _connection; }

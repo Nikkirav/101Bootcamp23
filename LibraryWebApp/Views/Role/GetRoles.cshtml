@@ -1,0 +1,36 @@
+﻿@using LibraryWebApp.Models;
+@using LibraryCommon;
+@model LibraryWebApp.Models.RoleListVM
+
+@{
+    ViewBag.Title = "GetRoles";
+}
+
+<h2>/Roles/GetRoles/</h2>
+
+
+<table id="tblRoles" class="display" style="width:100%">
+    <thead>
+        <tr>
+            <th hidden="hidden"></th>
+            <th>Role Name</th>            
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            foreach (RoleModel _current in Model.ListOfRoleModel)
+            {
+                <tr>
+                    <td hidden="hidden">
+                        @Html.Hidden(_current.RoleId.ToString())
+                    </td>
+                    <td>
+                        @_current.RoleName
+                    </td>
+                   
+                </tr>
+            }
+        }
+    </tbody> 
+</table>
+

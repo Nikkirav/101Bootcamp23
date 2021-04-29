@@ -22,6 +22,7 @@ namespace LibraryWebApp.Common
             return _user;
         }
 
+
         internal static UserModel UserToUserModel(User inUser) 
         {
             UserModel _userModel = new UserModel();
@@ -33,6 +34,21 @@ namespace LibraryWebApp.Common
             _userModel.UserId = inUser.UserId;
             _userModel.Username = inUser.Username;
             return _userModel;
+        }
+
+        internal static List<RoleModel> RoleListToRoleModelList(List<LibraryCommon.DataEntity.Role> inList)
+        {
+            List<RoleModel> list = new List<RoleModel>();
+
+            foreach (LibraryCommon.DataEntity.Role _current in inList)
+            {
+                RoleModel rm = new RoleModel();
+                rm.RoleId = _current.RoleID;
+                rm.RoleName = _current.RoleName;
+                list.Add(rm);
+            }
+
+            return list;
         }
 
         private static string RoleIdToRoleName(int inRoleId)

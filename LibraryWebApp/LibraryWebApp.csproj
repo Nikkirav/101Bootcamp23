@@ -123,6 +123,7 @@
     <Compile Include="Common\Mapper.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Filters\MustBeLoggedInAttribute .cs" />
     <Compile Include="Filters\MustBeInRoleAttribute.cs" />
     <Compile Include="Global.asax.cs">
@@ -133,6 +134,7 @@
     <Compile Include="Models\BooksModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\RoleModel.cs" />
+    <Compile Include="Models\RoleListVM.cs" />
     <Compile Include="Models\UserModel.cs" />
     <Compile Include="Models\UsersModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -395,6 +397,10 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Static\home.html" />
+    <Content Include="Static\hours.html" />
+    <Content Include="Static\images\DBRL-linear-transparent.png" />
+    <Content Include="Static\library.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -419,6 +425,8 @@
     <Content Include="Views\Home\Books.cshtml" />
     <Content Include="Views\Home\GenresAuthors.cshtml" />
     <Content Include="Views\Home\UserEdit.cshtml" />
+    <Content Include="Views\Role\Index.cshtml" />
+    <Content Include="Views\Role\GetRoles.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

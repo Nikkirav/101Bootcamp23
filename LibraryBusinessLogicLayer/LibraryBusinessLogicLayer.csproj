@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BookOperationsBLL.cs" />
+    <Compile Include="RoleBusinessLogic.cs" />
     <Compile Include="UserOperationsBLL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

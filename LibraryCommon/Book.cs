@@ -27,6 +27,5 @@ namespace LibraryCommon
         public DateTime ReturnedDate { get; set; }
 
         public string BookStatus { get; set; }
-
     }
 }
