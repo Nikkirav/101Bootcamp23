@@ -1,12 +1,13 @@
 ﻿@model LibraryWebApp.Models.RoleModel
 
 @{
-    ViewBag.Title = "CreateRole";
+    ViewBag.Title = "UpdateRole";
 }
 
-<h2>CreateRole</h2>
+<h2>UpdateRole</h2>
 
-@using (Html.BeginForm()) 
+
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
     
@@ -14,13 +15,14 @@
         <h4>RoleModel</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @*<div class="form-group">
+        <div class="form-group" hidden="hidden">
             @Html.LabelFor(model => model.RoleId, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.RoleId, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
+
             </div>
-        </div>*@
+        </div>
 
         <div class="form-group">
             @Html.LabelFor(model => model.RoleName, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -32,8 +34,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" id="btnCreateRoleSubmit" value="Create" class="btn btn-default" />
-                <input type="reset" value="Clear" class="btn btn-default" onclick="ClearInput(document.getElementById('RoleName'));" />
+                <input type="submit" id="btnUpdateRoleSubmit" value="Save" class="btn btn-default" />
+                <input type="button" value="Clear" class="btn btn-default" onclick="ClearInput(document.getElementById('RoleName'));" />
             </div>
         </div>
     </div>
@@ -42,3 +44,7 @@
 <div>
     @Html.ActionLink("Back to List", "GetRoles")
 </div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

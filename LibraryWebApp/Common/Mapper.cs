@@ -53,6 +53,11 @@ namespace LibraryWebApp.Common
             }
         }
 
+        internal static LibraryCommon.DataEntity.Role RoleModelToRole(RoleModel model)
+        {
+            return new LibraryCommon.DataEntity.Role { RoleID = model.RoleId, RoleName = model.RoleName };
+        }
+
         internal static User LoginModelToUser(LoginModel inModel)
         {
             // TODO: mapping
@@ -94,6 +99,11 @@ namespace LibraryWebApp.Common
 
             _booksModel.ListOfBookModel = _list;
             return _booksModel;
+        }
+
+        internal static RoleModel RoleToRoleModel(LibraryCommon.DataEntity.Role r)
+        {
+            return new RoleModel { RoleId = r.RoleID, RoleName = r.RoleName };
         }
 
         internal static UsersModel ResultUsersToUsersModel(ResultUsers resultUsers)

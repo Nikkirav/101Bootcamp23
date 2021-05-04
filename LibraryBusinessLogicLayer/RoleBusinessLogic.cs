@@ -3,7 +3,6 @@ using LibraryDatabaseAccessLayer;
 using System;
 using System.Collections.Generic;
 
-
 namespace LibraryBusinessLogicLayer
 {
     public class RoleBusinessLogic
@@ -37,6 +36,11 @@ namespace LibraryBusinessLogicLayer
         {
             Role r = new Role() { RoleID = id };
             _data.DeleteRole(r);
+        }
+
+        public void UpdateRolePassThru(Role role)
+        {
+            _data.UpdateRole(role);
         }
     }
 }

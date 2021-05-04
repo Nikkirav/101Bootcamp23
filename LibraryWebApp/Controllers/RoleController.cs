@@ -64,6 +64,7 @@ namespace LibraryWebApp.Controllers
             if (ModelState.IsValid)
             {
                 // TODO: process and add the role to db
+                _logic.CreateRolePassThru(Mapper.RoleModelToRole(model));
                 return RedirectToAction("GetRoles", "Role");
             }
             else 
@@ -72,6 +73,45 @@ namespace LibraryWebApp.Controllers
                 return View();
             }                
         }
+
+
+        //[HttpGet]
+        //public ActionResult UpdateRole(RoleModel model)
+        //{
+        //    return View();
+        //}
+
+
+        // TODO: finish
+        [HttpGet]
+        public ActionResult UpdateRole(int id)
+        {
+            List<Role> _list = _logic.GetRolesPassThru();
+            RoleModel model = new RoleModel();
+            Role _r = _list.Where(r => r.RoleID == id).FirstOrDefault();
+            model = Mapper.RoleToRoleModel(_r);
+            return View(model);
+
+        }
+
+        [HttpPost]
+        public ActionResult UpdateRole(RoleModel r)
+        {
+
+            if (ModelState.IsValid)
+            {
+               
+                _logic.UpdateRolePassThru(Mapper.RoleModelToRole(r));
+                return RedirectToAction("GetRoles", "Role");
+            }
+            else
+            {
+                // send them back to the view with error messages
+                return View();
+            }
+        }
+
+
 
 
 
@@ -102,14 +142,5 @@ namespace LibraryWebApp.Controllers
         }
 
 
-        // TODO: finish
-        [HttpPost]
-        public ActionResult UpdateRole(int id)
-        {
-
-
-            return View();
-
-        }
     }
 }

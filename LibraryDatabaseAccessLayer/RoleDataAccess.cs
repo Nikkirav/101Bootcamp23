@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using LibraryCommon.Common;
 using LibraryCommon.DataEntity;
 
 namespace LibraryDatabaseAccessLayer
@@ -9,15 +10,18 @@ namespace LibraryDatabaseAccessLayer
     public class RoleDataAccess
     {
         private readonly string _conn;
+        private ExceptionLogging _logger;
 
         // constructors
         public RoleDataAccess(string conn)
         {
             _conn = conn;
+            _logger = new ExceptionLogging(_conn);
         }
 
         public RoleDataAccess()
         {
+            _logger = new ExceptionLogging(_conn);
         }
 
         // methods
@@ -58,10 +62,10 @@ namespace LibraryDatabaseAccessLayer
                     }
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // TODO: log error in an exception is thrown
-                throw;
+                _logger.LogException(ex);
+                throw ex;
             }
 
             return _list;
@@ -70,33 +74,48 @@ namespace LibraryDatabaseAccessLayer
         public int CreateRole(Role r)
         {
 
-            using (SqlConnection con = new SqlConnection(_conn))
+            try
             {
-                using (SqlCommand _sqlCommand = new SqlCommand("spCreateRole", con))
+                using (SqlConnection con = new SqlConnection(_conn))
                 {
-                    _sqlCommand.CommandType = CommandType.StoredProcedure;
-                    _sqlCommand.CommandTimeout = 30;
-                    //_sqlCommand.Parameters.AddWithValue("@ParamRoleName", r.RoleName);
-                    //_sqlCommand.Parameters.Add("@ParamRoleName", SqlDbType.NVarChar(100)).Value = r.RoleName;
-                    SqlParameter _paramRoleName = _sqlCommand.CreateParameter();
-                    _paramRoleName.DbType = DbType.String;
-                    _paramRoleName.ParameterName = "@ParamRoleName";
-                    _paramRoleName.Value = r.RoleName;
-                    _sqlCommand.Parameters.Add(_paramRoleName);
+                    using (SqlCommand _sqlCommand = new SqlCommand("spCreateRole", con))
+                    {
+                        _sqlCommand.CommandType = CommandType.StoredProcedure;
+                        _sqlCommand.CommandTimeout = 30;
+                        //_sqlCommand.Parameters.AddWithValue("@ParamRoleName", r.RoleName);
+                        //_sqlCommand.Parameters.Add("@ParamRoleName", SqlDbType.NVarChar(100)).Value = r.RoleName;
+                        SqlParameter _paramRoleName = _sqlCommand.CreateParameter();
+                        _paramRoleName.DbType = DbType.String;
+                        _paramRoleName.ParameterName = "@ParamRoleName";
+                        _paramRoleName.Value = r.RoleName;
+                        _sqlCommand.Parameters.Add(_paramRoleName);
 
-                    SqlParameter _paramRoleIDReturn = _sqlCommand.CreateParameter();
-                    _paramRoleIDReturn.DbType = DbType.Int32;
-                    _paramRoleIDReturn.ParameterName = "@ParamOutRoleID";
-                    var pk = _sqlCommand.Parameters.Add(_paramRoleIDReturn);
-                    _paramRoleIDReturn.Direction = ParameterDirection.Output;
+                        SqlParameter _paramRoleIDReturn = _sqlCommand.CreateParameter();
+                        _paramRoleIDReturn.DbType = DbType.Int32;
+                        _paramRoleIDReturn.ParameterName = "@ParamOutRoleID";
+                        var pk = _sqlCommand.Parameters.Add(_paramRoleIDReturn);
+                        _paramRoleIDReturn.Direction = ParameterDirection.Output;
 
-                    con.Open();
-                    _sqlCommand.ExecuteNonQuery();   // calls the sp 
-                    var result = _paramRoleIDReturn.Value;
-                    con.Close();
-                    return (int)result;
+                        con.Open();
+                        _sqlCommand.ExecuteNonQuery();   // calls the sp 
+                        var result = _paramRoleIDReturn.Value;
+                        con.Close();
+                        return (int)result;
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                _logger.LogException(ex);
+                throw ex;
+            }
+            finally 
+            { 
+            
+            
+            }
+
+           
         }
 
         public void DeleteRole(Role r)
@@ -123,38 +142,60 @@ namespace LibraryDatabaseAccessLayer
             }
             catch (Exception ex)
             {
-
-                throw;
+                _logger.LogException(ex);
+                throw ex;
             }
-          
+            finally
+            {
+
+
+            }
+
         }
 
         public void UpdateRole(Role r)
         {
-            using (SqlConnection con = new SqlConnection(_conn))
+
+            try
             {
-                using (SqlCommand _sqlCommand = new SqlCommand("spUpdateRole", con))
+
+                using (SqlConnection con = new SqlConnection(_conn))
                 {
-                    _sqlCommand.CommandType = CommandType.StoredProcedure;
-                    _sqlCommand.CommandTimeout = 30;
+                    using (SqlCommand _sqlCommand = new SqlCommand("spUpdateRole", con))
+                    {
+                        _sqlCommand.CommandType = CommandType.StoredProcedure;
+                        _sqlCommand.CommandTimeout = 30;
 
-                    SqlParameter _paramRoleName = _sqlCommand.CreateParameter();
-                    _paramRoleName.DbType = DbType.String;
-                    _paramRoleName.ParameterName = "@ParamRoleName";
-                    _paramRoleName.Value = r.RoleName;
-                    _sqlCommand.Parameters.Add(_paramRoleName);
+                        SqlParameter _paramRoleName = _sqlCommand.CreateParameter();
+                        _paramRoleName.DbType = DbType.String;
+                        _paramRoleName.ParameterName = "@ParamRoleName";
+                        _paramRoleName.Value = r.RoleName;
+                        _sqlCommand.Parameters.Add(_paramRoleName);
 
-                    SqlParameter _paramRoleID = _sqlCommand.CreateParameter();
-                    _paramRoleID.DbType = DbType.Int32;
-                    _paramRoleID.ParameterName = "@ParamRoleID";
-                    _paramRoleID.Value = r.RoleID;
-                    _sqlCommand.Parameters.Add(_paramRoleID);
+                        SqlParameter _paramRoleID = _sqlCommand.CreateParameter();
+                        _paramRoleID.DbType = DbType.Int32;
+                        _paramRoleID.ParameterName = "@ParamRoleID";
+                        _paramRoleID.Value = r.RoleID;
+                        _sqlCommand.Parameters.Add(_paramRoleID);
 
-                    con.Open();
-                    _sqlCommand.ExecuteNonQuery();   // calls the sp                 
-                    con.Close();
+                        con.Open();
+                        _sqlCommand.ExecuteNonQuery();   // calls the sp                 
+                        con.Close();
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                _logger.LogException(ex);
+                throw ex;
+            }
+            finally
+            {
+
+
+            }
+
+
         }
     
     }
