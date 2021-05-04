@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using LibraryCommon.DataEntity;
@@ -24,36 +25,45 @@ namespace LibraryDatabaseAccessLayer
         {
             List<Role> _list = new List<Role>();
 
-            using (SqlConnection con = new SqlConnection(_conn))
+            try
             {
-                using (SqlCommand _sqlCommand = new SqlCommand("spGetRole", con))
+                using (SqlConnection con = new SqlConnection(_conn))
                 {
-                    _sqlCommand.CommandType = CommandType.StoredProcedure;
-                    _sqlCommand.CommandTimeout = 30;
-                    //_sqlCommand.Parameters.AddWithValue("@BookID", inOneParticularBook);
-
-                    con.Open();
-                    Role _role;
-                    using (SqlDataReader reader = _sqlCommand.ExecuteReader())
+                    using (SqlCommand _sqlCommand = new SqlCommand("spGetRole", con))
                     {
-                        while (reader.Read())
+                        _sqlCommand.CommandType = CommandType.StoredProcedure;
+                        _sqlCommand.CommandTimeout = 30;
+                        //_sqlCommand.Parameters.AddWithValue("@BookID", inOneParticularBook);
+
+                        con.Open();
+                        Role _role;
+                        using (SqlDataReader reader = _sqlCommand.ExecuteReader())
                         {
-                            _role = new Role
+                            while (reader.Read())
                             {
-                                RoleID = reader.GetInt32(reader.GetOrdinal("RoleID")),
-                                RoleName = (string)reader["RoleName"]
-                                //Description = (string)reader["Book_Description"],
-                                //Price = reader.GetDecimal(reader.GetOrdinal("Book_Price")),
-                                //IsPaperback = (string)reader["Book_IsPaperBack"],
-                                //Author_FK = reader.GetInt32(reader.GetOrdinal("Book_AuthorID_FK")),
-                                //Genre_FK = reader.GetInt32(reader.GetOrdinal("GenreID_FK"))
-                            };
-                            _list.Add(_role);
+                                _role = new Role
+                                {
+                                    RoleID = reader.GetInt32(reader.GetOrdinal("RoleID")),
+                                    RoleName = (string)reader["RoleName"]
+                                    //Description = (string)reader["Book_Description"],
+                                    //Price = reader.GetDecimal(reader.GetOrdinal("Book_Price")),
+                                    //IsPaperback = (string)reader["Book_IsPaperBack"],
+                                    //Author_FK = reader.GetInt32(reader.GetOrdinal("Book_AuthorID_FK")),
+                                    //Genre_FK = reader.GetInt32(reader.GetOrdinal("GenreID_FK"))
+                                };
+                                _list.Add(_role);
+                            }
                         }
+                        con.Close();
                     }
-                    con.Close();
                 }
             }
+            catch (Exception)
+            {
+                // TODO: log error in an exception is thrown
+                throw;
+            }
+
             return _list;
         }
 
@@ -91,23 +101,32 @@ namespace LibraryDatabaseAccessLayer
 
         public void DeleteRole(Role r)
         {
-            using (SqlConnection con = new SqlConnection(_conn))
+            try
             {
-                using (SqlCommand _sqlCommand = new SqlCommand("spDeleteRole", con))
+                using (SqlConnection con = new SqlConnection(_conn))
                 {
-                    _sqlCommand.CommandType = CommandType.StoredProcedure;
-                    _sqlCommand.CommandTimeout = 30;
-                    SqlParameter _parameter = _sqlCommand.CreateParameter();
-                    _parameter.DbType = DbType.Int32;
-                    _parameter.ParameterName = "@ParamRoleID";
-                    _parameter.Value = r.RoleID;
-                    _sqlCommand.Parameters.Add(_parameter);
+                    using (SqlCommand _sqlCommand = new SqlCommand("spDeleteRole", con))
+                    {
+                        _sqlCommand.CommandType = CommandType.StoredProcedure;
+                        _sqlCommand.CommandTimeout = 30;
+                        SqlParameter _parameter = _sqlCommand.CreateParameter();
+                        _parameter.DbType = DbType.Int32;
+                        _parameter.ParameterName = "@ParamRoleID";
+                        _parameter.Value = r.RoleID;
+                        _sqlCommand.Parameters.Add(_parameter);
 
-                    con.Open();
-                    _sqlCommand.ExecuteNonQuery();   // calls the sp                 
-                    con.Close();
+                        con.Open();
+                        _sqlCommand.ExecuteNonQuery();   // calls the sp                 
+                        con.Close();
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+          
         }
 
         public void UpdateRole(Role r)

@@ -55,8 +55,9 @@ namespace LibraryUnitTest
             // act
             list = _data.GetRoles();
             int _countBeforeAdd = list.Count;
-
-            Role r = new Role { RoleID = 0, RoleName = "Testing Role Another" };
+            Guid id = Guid.NewGuid();
+            string roleName = "Testing Role - guid: " + id.ToString();
+            Role r = new Role { RoleID = 0, RoleName = roleName };
 
             // assert
             int key = _data.CreateRole(r); // should add a new row of data to db
@@ -64,7 +65,8 @@ namespace LibraryUnitTest
             int _countAfterAdd = list.Count;
 
             Assert.IsTrue(_countBeforeAdd + 1 == _countAfterAdd);
-
+            r.RoleID = key;
+            _data.DeleteRole(r);
         }
 
         [TestMethod]
@@ -96,14 +98,19 @@ namespace LibraryUnitTest
 
             // arrange
             Role r = new Role { RoleName = "Mock Role" };
-            _data.CreateRole(r);
+            int key = _data.CreateRole(r);
 
             // act
+            r.RoleID = key;
+            r.RoleName = "Changing the Role Name";
+            _data.UpdateRole(r);
 
-
+            List<Role> list = _data.GetRoles();
+            Role findIt = list.Where(f => f.RoleID == key).FirstOrDefault();
 
             // assert
-
+            Assert.IsTrue(findIt.RoleName == "Changing the Role Name");
+            _data.DeleteRole(r);
             
         }
 
@@ -111,13 +118,20 @@ namespace LibraryUnitTest
         public void Get_Roles_Count_Add_Role_And_Recount()
         {
 
-            throw new NotImplementedException();
             // arrange
+            int countBefore, countAfter;
+            countBefore = _data.GetRoles().Count;
 
             // act
+            Guid id = Guid.NewGuid();
+            string roleName = "Testing Role - guid: " + id.ToString();
+            Role r = new Role { RoleID = 0, RoleName = roleName };
+            int key = _data.CreateRole(r);
+            countAfter = _data.GetRoles().Count;
 
             // assert
-
+            Assert.IsTrue(countAfter > countBefore);
+            _data.DeleteRole(r);
         }
 
     }

@@ -10,19 +10,6 @@ namespace LibraryWebApp.Common
     public static class Mapper
     {
 
-        internal static User UserModelToUser(UserModel inUserModel) 
-        {
-            // TODO: mapping
-            User _user = new User();
-
-            _user.FirstName = inUserModel.FirstName;
-            _user.LastName = inUserModel.LastName;
-            _user.Username = inUserModel.Username;
-            _user.Password = inUserModel.Password;
-            return _user;
-        }
-
-
         internal static UserModel UserToUserModel(User inUser) 
         {
             UserModel _userModel = new UserModel();

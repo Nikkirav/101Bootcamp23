@@ -1,22 +1,17 @@
 ﻿using LibraryCommon.DataEntity;
 using LibraryWebApp.Common;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace LibraryWebApp.Models
 {
     public class RoleListVM
     {
         // data
-        public IEnumerable<RoleModel> ListOfRoleModel { get; set; }
+        public IEnumerable<RoleModel> ListOfRoleModel { get; set; } // list of all roles in datatabase
 
-        // constructors
-        public RoleListVM(List<RoleModel> rmlist)
+        public RoleListVM(List<Role> list)
         {
-            ListOfRoleModel = rmlist;
+            ListOfRoleModel = Mapper.RoleListToRoleModelList(list);
         }
-
     }
 }

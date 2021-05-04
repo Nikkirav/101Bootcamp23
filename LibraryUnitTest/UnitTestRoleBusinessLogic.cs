@@ -34,6 +34,19 @@ namespace LibraryUnitTest
             Assert.AreEqual(_callOne.Count, _callTwo.Count);
         }
 
+        [TestMethod]
+        public void Delete_Roles_Thru_Business_Logic()
+        {
+            // arrange
+
+            // act
+           // List<Role> _callOne = _businesslogic.GetRolesPassThru();
+           // List<Role> _callTwo = _businesslogic.GetRolesPassThru();
+
+            // assert
+           // Assert.AreEqual(_callOne.Count, _callTwo.Count);
+        }
+
         public void Add_Role_Thru_Business_Logic() 
         { 
         

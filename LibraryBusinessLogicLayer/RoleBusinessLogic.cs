@@ -1,5 +1,6 @@
 ﻿using LibraryCommon.DataEntity;
 using LibraryDatabaseAccessLayer;
+using System;
 using System.Collections.Generic;
 
 
@@ -30,6 +31,12 @@ namespace LibraryBusinessLogicLayer
         public void CreateRolePassThru(Role r)
         {
             _data.CreateRole(r);
+        }
+
+        public void DeleteRolePassThru(int id)
+        {
+            Role r = new Role() { RoleID = id };
+            _data.DeleteRole(r);
         }
     }
 }

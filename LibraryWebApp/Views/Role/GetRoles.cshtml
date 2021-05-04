@@ -1,25 +1,41 @@
 ﻿@using LibraryWebApp.Models;
-@using LibraryCommon;
 @model LibraryWebApp.Models.RoleListVM
 
 @{
-    ViewBag.Title = "GetRoles";
+    //ViewBag.Title = "GetRoles";
+    string somevariable = ViewBag.Title;
 }
 
-<h2>/Roles/GetRoles/</h2>
+<style>
+    table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+</style>
+
+<h2>Roles @ViewBag.Title</h2>
+
+@*<button id="btnRoleAdd" class="btn btn-primary">Add</button>*@
+@using (Html.BeginForm("CreateRole", "Role", FormMethod.Get))
+{
+    <input class="btn btn-primary" type="submit" value="Add" />
+}
 
 
 <table id="tblRoles" class="display" style="width:100%">
     <thead>
         <tr>
             <th hidden="hidden"></th>
-            <th>Role Name</th>            
+            <th>Role Name</th>
+            <th></th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
         @{
             foreach (RoleModel _current in Model.ListOfRoleModel)
             {
+                RoleModel _c = _current;
                 <tr>
                     <td hidden="hidden">
                         @Html.Hidden(_current.RoleId.ToString())
@@ -28,9 +44,26 @@
                         @_current.RoleName
                     </td>
                    
+                    <td>
+                        @using (Html.BeginForm("UpdateRole", "Role", FormMethod.Post))
+                        {
+                            <input type="hidden" name="id" value="@_current.RoleId" />
+                            <input class="btn btn-primary" type="submit" value="Update" />
+                        }
+                    </td>
+                   
+                    <td>
+                        @using (Html.BeginForm("DeleteRole", "Role", FormMethod.Post))
+                        {
+                            <input type="hidden" name="id" value="@_current.RoleId" />
+                            <input class="btn btn-danger" type="submit" value="Delete" />
+                        }
+                    </td>
                 </tr>
             }
         }
-    </tbody> 
+    </tbody>
 </table>
+
+
 
