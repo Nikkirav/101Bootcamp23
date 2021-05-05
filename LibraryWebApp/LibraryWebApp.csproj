@@ -132,7 +132,6 @@
     <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\BookModel.cs" />
     <Compile Include="Models\BooksModel.cs" />
-    <Compile Include="Models\ExampleModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\RoleModel.cs" />
     <Compile Include="Models\RoleListVM.cs" />
@@ -432,6 +431,7 @@
     <Content Include="Views\Role\CreateRole.cshtml" />
     <Content Include="Views\Role\ExampleView.cshtml" />
     <Content Include="Views\Role\UpdateRole.cshtml" />
+    <Content Include="Views\Home\SearchLibrary.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

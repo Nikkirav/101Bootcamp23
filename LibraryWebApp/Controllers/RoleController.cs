@@ -118,8 +118,10 @@ namespace LibraryWebApp.Controllers
         [HttpGet]
         public ActionResult ExampleView()
         {
+            var list = _logic.GetRolesPassThru();
+            RoleListVM vm = new RoleListVM(list);
 
-            return View();
+            return View(vm);
 
         }
 

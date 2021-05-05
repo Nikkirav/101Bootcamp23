@@ -18,7 +18,11 @@ namespace LibraryDatabaseAccessLayer
         {
             _conn = conn;
         }
-     
+
+        public UserDataAccess()
+        {
+        }
+
         public List<User> GetUsers()
         {
             List<User> _list = new List<User>();

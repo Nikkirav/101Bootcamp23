@@ -6,6 +6,7 @@ using LibraryWebApp.Filters;
 using LibraryWebApp.Models;
 using System.Collections.Generic;
 using System.Web.Mvc;
+using System.Linq;
 
 namespace LibraryWebApp.Controllers
 {
@@ -15,11 +16,13 @@ namespace LibraryWebApp.Controllers
 
         // data
         private readonly string _dbConn;
+        private UserBusinessLogic _logic;
 
         // constuctors
         public HomeController() : base() 
         {
             _dbConn = System.Configuration.ConfigurationManager.ConnectionStrings["dbconnection"].ConnectionString;
+            _logic = new UserBusinessLogic(_dbConn);
         }
 
         //[HttpGet]
@@ -31,27 +34,33 @@ namespace LibraryWebApp.Controllers
 
 
 
-        public ActionResult Index()
-        {
-            var _v = View();
-            return _v;
-        }
+        //public ActionResult Index()
+        //{
+        //    var _v = View();
+        //    return _v;
+        //}
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
+        //public ActionResult About()
+        //{
+        //    ViewBag.Message = "Your application description page.";
 
+        //    return View();
+        //}
+
+
+        //public ActionResult Contact()
+        //{
+        //    ViewBag.Message = "Your contact page.";
+
+        //    return View();
+        //}
+
+
+        [HttpGet]
+        public ActionResult SearchLibrary()
+        {
             return View();
         }
-
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
 
         [HttpGet]
         public ActionResult Books()
@@ -62,62 +71,60 @@ namespace LibraryWebApp.Controllers
         }
 
 
+        [HttpGet]
+        public ActionResult Login()
+        {
+            LoginModel model = new LoginModel();
+            // 1. collect the information the the user
+            return View(model);
 
-        //[HttpGet]
-        //public ActionResult Login()
-        //{
-        //    LoginModel model = new LoginModel();
-        //    // 1. collect the information the the user
-        //    ViewBag.Message = "Login page.";
-        //    return View(model);
+        }
 
-        //}
+        [HttpPost]
+        public ActionResult Login(LoginModel inModel)
+        {
 
-        //[HttpPost]
-        //public ActionResult Login(LoginModel inModel)
-        //{
+            if (ModelState.IsValid)
+            {
+                // 3. send the input down to the database and check for username/password
 
-        //    if (ModelState.IsValid)
-        //    {
-        //        // 3. send the input down to the database and check for username/password
+                // 3.a create new bll object
+                //UserOperationsBLL _logic = new UserOperationsBLL(base.Connection);
 
-        //        // 3.a create new bll object
-        //        UserOperationsBLL _userOperationsBLL = new UserOperationsBLL(base.Connection);
+                // 3.b need to convert LoginModel object to User object
+                LibraryCommon.DataEntity.User _user = Mapper.LoginModelToUser(inModel);
 
-        //        // 3.b need to convert LoginModel object to User object
-        //        User _user = Mapper.LoginModelToUser(inModel);
+                // 3.c pass the user object down to bll layer
+                //ResultUsers _result = _userOperationsBLL.LoginUser(_user);
+                ResultUsers _result = _logic.LoginUser(_user);
 
-        //        // 3.c pass the user object down to bll layer
-        //        ResultUsers _result = _userOperationsBLL.LoginUser(_user);
+                if (_result.Type == ResultType.Success)
+                {
+                    UserModel _userModel = Mapper.UserToUserModel(_result.ListOfUsers.Where(u=>u.Username == inModel.Username).FirstOrDefault());
 
-        //        if (_result.Type == ResultType.Success)
-        //        {
-        //            UserModel _userModel = Mapper.UserToUserModel(_result.ListOfUsers[0]);
+                    // store the userModel in Global session
+                    Session["UserSession"] = _userModel;
 
+                    // Advanced Auth LMS
+                    Session["AUTHUsername"] = _userModel.Username;
+                    Session["AUTHRoles"] = _userModel.RoleName;
 
-        //            // store the userModel in Global session
-        //            Session["UserSession"] = _userModel;
+                    return RedirectToAction("Main", "Home");
+                }
+                else
+                {
+                    inModel.DialogMessage = _result.Message;
+                    inModel.DialogMessageType = _result.Type.ToString();
+                    return View(inModel);
+                }
+            }
+            // validation failed, have the user redo the form
+            else
+            {
+                return View(inModel);
+            }
 
-        //            // Advanced Auth LMS
-        //            Session["AUTHUsername"] = _userModel.Username;
-        //            Session["AUTHRoles"] = _userModel.RoleName;
-
-        //            return RedirectToAction("Main", "Home");
-        //        }
-        //        else
-        //        {
-        //            inModel.DialogMessage = _result.Message;
-        //            inModel.DialogMessageType = _result.Type.ToString();
-        //            return View(inModel);
-        //        }
-        //    }
-        //    // validation failed, have the user redo the form
-        //    else
-        //    {
-        //        return View(inModel);
-        //    }
-
-        //}
+        }
 
 
         //[HttpGet]
@@ -188,56 +195,55 @@ namespace LibraryWebApp.Controllers
         //}
 
 
-        //// Register GET
-        //[HttpGet]
-        //public ActionResult Register()
-        //{
-        //    // this will create the empty form
+        // Register GET
+        [HttpGet]
+        public ActionResult Register()
+        {
+            // this will create the empty form
 
-        //    UserModel model = new UserModel();
+            UserModel model = new UserModel();
 
-        //    // 1. collect the information the the user
-        //    ViewBag.Message = "Register page.";
-        //    return View(model);
+            // 1. collect the information the the user
+            return View(model);
 
-        //}
+        }
 
-        //[HttpPost]
-        //public ActionResult Register(UserModel inModel)
-        //{
+        [HttpPost]
+        public ActionResult Register(UserModel inModel)
+        {
 
-        //    // 2. valididate the fields have the correct data otherwise (if) send error to user and have
-        //    // them redo the input 
-        //    // data annotations for validation in MVC
+            // 2. valididate the fields have the correct data otherwise (if) send error to user and have
+            // them redo the input 
+            // data annotations for validation in MVC
 
-        //    // valid state, validation passed
-        //    if (ModelState.IsValid)
-        //    {
-        //        // 3. send the input down to the database and check for duplicate username
+            // valid state, validation passed
+            if (ModelState.IsValid)
+            {
+                // 3. send the input down to the database and check for duplicate username
 
-        //        // 3.a create new bll object
-        //        UserOperationsBLL _userOperationsBLL = new UserOperationsBLL(base.Connection);
+                // 3.a create new bll object
+                UserOperationsBLL _userOperationsBLL = new UserOperationsBLL(base.Connection);
 
-        //        // 3.b need to convert UserModel object to User object
-        //        User _user = Mapper.UserModelToUser(inModel);
+                // 3.b need to convert UserModel object to User object
+                LibraryCommon.DataEntity.User _user = Mapper.UserModelToUser(inModel);
 
-        //        // 3.c pass the user object down to bll layer
-        //        Result _result = _userOperationsBLL.RegisterUser(_user);
+                // 3.c pass the user object down to bll layer
+                Result _result = _logic.RegisterUser(_user);
 
-        //        inModel.DialogMessage = _result.Message;
-        //        inModel.DialogMessageType = _result.Type.ToString();
+                inModel.DialogMessage = _result.Message;
+                inModel.DialogMessageType = _result.Type.ToString();
 
-        //        return View(inModel);
-        //    }
-        //    // validation failed, have the user redo the form
-        //    else
-        //    {
+                return View(inModel);
+            }
+            // validation failed, have the user redo the form
+            else
+            {
 
-        //        return View(inModel);
+                return View(inModel);
 
-        //    }
+            }
 
-        //}
+        }
 
 
         //[HttpGet]
@@ -293,7 +299,7 @@ namespace LibraryWebApp.Controllers
 
         //    // need to go fetch this user
         //    UserOperationsBLL _userOperationsBLL = new UserOperationsBLL(base.Connection);
-            
+
         //    // need to pass the id
         //    ResultUsers _onlyOne = _userOperationsBLL.GetUsersAndTheirRolesPassThru(id);
 
@@ -312,7 +318,7 @@ namespace LibraryWebApp.Controllers
         //    // need to create bll object
 
         //    // map model to common object
-            
+
         //    // need to call method on bll object and mapped object
         //    // this will be edit CRUD operation
 

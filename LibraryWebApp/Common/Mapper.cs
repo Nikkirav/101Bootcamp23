@@ -58,12 +58,23 @@ namespace LibraryWebApp.Common
             return new LibraryCommon.DataEntity.Role { RoleID = model.RoleId, RoleName = model.RoleName };
         }
 
-        internal static User LoginModelToUser(LoginModel inModel)
+        //internal static User LoginModelToUser(LoginModel inModel)
+        //{
+        //    // TODO: mapping
+        //    User _user = new User();
+
+        //    _user.Username = inModel.Username;
+        //    _user.Password = inModel.Password;
+
+        //    return _user;
+        //}
+
+        internal static LibraryCommon.DataEntity.User LoginModelToUser(LoginModel inModel)
         {
             // TODO: mapping
-            User _user = new User();
+            LibraryCommon.DataEntity.User _user = new LibraryCommon.DataEntity.User();
 
-            _user.Username = inModel.Username;
+            _user.UserName = inModel.Username;
             _user.Password = inModel.Password;
 
             return _user;
@@ -119,6 +130,11 @@ namespace LibraryWebApp.Common
             // TODO: SET IT _usersModel.ListOfUsers
             _usersModel.ListOfUsers = _list;
             return _usersModel;
+        }
+
+        internal static LibraryCommon.DataEntity.User UserModelToUser(UserModel inModel)
+        {
+            throw new NotImplementedException();
         }
     }
 }

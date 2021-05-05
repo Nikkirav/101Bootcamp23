@@ -12,6 +12,7 @@ namespace LibraryCommon
         public string Message { get; set; }
         public ResultType Type { get; set; }
 
+        public Exception Exception { get; set; }
 
     }
 }
