@@ -30,4 +30,55 @@ table, th, td {
 }
 
 
+/*   my custom stuff  */
+
+ul {
+    list-style-type: none;
+    margin: -10px;
+    padding: 0;
+    overflow: hidden;
+    margin: 20px;
+}
+
+li {
+    float: right;
+    display: inline;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-family: Arial;
+}
+
+li a:hover {
+    background-color: blueviolet;
+}
+
+.mega-search-library {
+    font-family: 'Baskerville Old Face';
+    text-align: center;
+    font-size: 20px;
+    padding: 25px;
+}
+
+.navbar-mid-library {
+    background-color: #81ba49;
+}
+
+.navbar-header-library {
+    background-color: #265069;
+}
+
+.footer-library {
+    text-align: center;
+    padding: 15px;
+    background-color: #265069;
+    color: white;
+}
+
+
 

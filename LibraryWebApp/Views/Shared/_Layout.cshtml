@@ -6,10 +6,11 @@
     <title>@ViewBag.Title - Library Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
 </head>
 <body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top navbar-header-library">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -17,14 +18,16 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Library Application", "SearchLibrary", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("Library Application", "Search", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @*<li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
-                    <li>@Html.ActionLink("Search", "SearchLibrary", "Home")</li>
+                        <li>@Html.ActionLink("About", "About", "Home")</li>
+                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+                    <li><a href="~/Static/library.html">Using The Library</a></li>
+                    <li><a href="~/Static/hours.html">Location & Hours</a></li>
+                    <li>@Html.ActionLink("Search", "Search", "Home")</li>
                     <li>@Html.ActionLink("Register", "Register", "Home")</li>
                     <li>@Html.ActionLink("Login", "Login", "Home")</li>
                 </ul>
@@ -34,10 +37,27 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Library Application</p>
-        </footer>
     </div>
+
+    <footer class="footer-library">
+        <p>
+            <img src="https://www.dbrl.org/wp-content/themes/cw-dbrl-theme/images/DBRL-linear-white.png" style="width:400px;" />
+            <i class="fa fa-twitter" style="font-size:24px"></i>
+            <i class="fa fa-instagram" style="font-size:24px"></i>
+            <i class="fa fa-youtube" style="font-size:24px"></i>
+        </p>
+        <div>
+            <a href="https://www.dbrl.org/about">ABOUT US</a>
+            <a href="https://www.dbrl.org/about/governance">GOVERNANCE</a>
+            <a href="https://www.dbrl.org/about/accessibility">ACCESSIBILITY</a>
+            <a href="https://www.dbrl.org/employment">EMPLOYMENT</a>
+            <a href="https://www.dbrl.org/giving">GIVE TO YOUR LIBRARY</a>
+            <i class="glyphicon-envelope" style="font-size:24px"><a href="mailto:giancarlo.rhodes@onshoreoutsourcing.com"></a></i>
+            @*<p>&copy; @DateTime.Now.Year - Library Application</p>*@
+        </div>
+    </footer>
+
+
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

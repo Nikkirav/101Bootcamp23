@@ -431,7 +431,7 @@
     <Content Include="Views\Role\CreateRole.cshtml" />
     <Content Include="Views\Role\ExampleView.cshtml" />
     <Content Include="Views\Role\UpdateRole.cshtml" />
-    <Content Include="Views\Home\SearchLibrary.cshtml" />
+    <Content Include="Views\Home\Search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

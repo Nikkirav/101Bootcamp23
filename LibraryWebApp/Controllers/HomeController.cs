@@ -57,7 +57,7 @@ namespace LibraryWebApp.Controllers
 
 
         [HttpGet]
-        public ActionResult SearchLibrary()
+        public ActionResult Search()
         {
             return View();
         }
