@@ -398,7 +398,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\site.js" />
-    <Content Include="Static\home.html" />
+    <Content Include="Static\home.old.html" />
+    <Content Include="Static\hours.rodney.html" />
     <Content Include="Static\hours.html" />
     <Content Include="Static\images\DBRL-linear-transparent.png" />
     <Content Include="Static\library.html" />

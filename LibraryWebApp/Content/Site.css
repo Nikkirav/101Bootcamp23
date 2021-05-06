@@ -45,18 +45,18 @@ li {
     display: inline;
 }
 
-li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    font-family: Arial;
-}
+    li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        font-family: Arial;
+    }
 
-li a:hover {
-    background-color: blueviolet;
-}
+        li a:hover {
+            background-color: blueviolet;
+        }
 
 .mega-search-library {
     font-family: 'Baskerville Old Face';
@@ -79,6 +79,132 @@ li a:hover {
     background-color: #265069;
     color: white;
 }
+
+
+
+/*   rodney p. custom stuff  */
+
+/*
+    positionFix {
+    position: sticky;
+}
+
+input[type=text] {
+    padding: 12px 20px;
+    font-size: 17px;
+    border: solid;
+    border-radius: 4px;*/
+    /*z-index: 1;*/
+/*}
+
+button {
+    border: none;
+    border-radius: 2px;*/
+    /*position: relative;
+            z-index:0;*/
+/*}
+
+.searchBar {
+    display: flex;
+    background-image: url(https://www.dbrl.org/wp-content/images/diamond_upholstery.jpg);
+    flex-direction: column;
+    padding: 5%;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    align-items: center;
+}
+
+form {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#upNavbar {
+    list-style-type: none;
+    margin: -10px;
+    padding: 0;
+    overflow: hidden;
+    background-color: #28546c;
+}
+
+    #upNavbar li {
+        float: right;
+        padding: 6px;
+    }
+
+        #upNavbar li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 10px 16px;
+            text-decoration: none;
+            font-family: Arial;
+            font-size: 15px;
+        }
+
+
+            #upNavbar li a:hover {
+                text-decoration: underline;
+            }
+
+#lowNavBar {
+    list-style-type: none;
+    padding: 0;
+    overflow: hidden;
+    background-color: #81BA49;
+    text-align: center;
+}
+
+    #lowNavBar li {
+        display: inline;
+    }
+
+        #lowNavBar li a {
+            color: darkblue;
+            font-size: 20px;
+            padding: 500px 20px;
+            font-family: Arial;
+        }
+
+            #lowNavBar li a:hover {
+                background-color: ButtonHighlight;
+                text-decoration: none;
+            }
+
+#image {
+    padding: 20px;
+}
+
+#footNavBar {
+    list-style-type: none;
+    margin: -10px;
+    padding: 0;
+    overflow: hidden;
+    background-color: #265069;
+}
+
+    #footNavBar li {
+        float: left;
+        padding: 6px;
+    }
+
+        #footNavBar li a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 10px 16px;
+            text-decoration: none;
+            font-family: Arial;
+            font-size: 12px;
+        }
+
+
+            #footNavBar li a:hover {
+                text-decoration: underline;
+            }
+
+*/
 
 
 
