@@ -10,17 +10,38 @@ namespace LibraryWebApp.Common
     public static class Mapper
     {
 
-        internal static UserModel UserToUserModel(User inUser) 
+        internal static UserModel UserToUserModel(LibraryCommon.DataEntity.User inUser) 
         {
             UserModel _userModel = new UserModel();
             _userModel.FirstName = inUser.FirstName;
             _userModel.LastName = inUser.LastName;
             _userModel.Password = inUser.Password;
-            _userModel.RoleId = inUser.RoleId;
-            _userModel.RoleName = Mapper.RoleIdToRoleName(inUser.RoleId);
-            _userModel.UserId = inUser.UserId;
-            _userModel.Username = inUser.Username;
+            _userModel.RoleId = inUser.RoleID_FK;
+            _userModel.RoleName = Mapper.RoleIdToRoleName(inUser.RoleID_FK);
+            _userModel.UserId = inUser.UserID;
+            _userModel.Username = inUser.UserName;
             return _userModel;
+        }
+
+        internal static IEnumerable<UserModel> UserListToUserModels(List<LibraryCommon.DataEntity.User> list)
+        {
+            List<UserModel> toReturn = new List<UserModel>();
+
+            foreach (LibraryCommon.DataEntity.User _currentItem in list)
+            {
+                UserModel newModel = new UserModel();
+
+                newModel.UserId = _currentItem.UserID;
+                newModel.FirstName = _currentItem.FirstName;
+                newModel.LastName = _currentItem.LastName;
+                newModel.Username = _currentItem.UserName;
+                newModel.Password = _currentItem.Password;
+                newModel.RoleId = _currentItem.RoleID_FK;
+
+                toReturn.Add(newModel);
+            }
+
+            return toReturn;
         }
 
         internal static List<RoleModel> RoleListToRoleModelList(List<LibraryCommon.DataEntity.Role> inList)
@@ -58,16 +79,6 @@ namespace LibraryWebApp.Common
             return new LibraryCommon.DataEntity.Role { RoleID = model.RoleId, RoleName = model.RoleName };
         }
 
-        //internal static User LoginModelToUser(LoginModel inModel)
-        //{
-        //    // TODO: mapping
-        //    User _user = new User();
-
-        //    _user.Username = inModel.Username;
-        //    _user.Password = inModel.Password;
-
-        //    return _user;
-        //}
 
         internal static LibraryCommon.DataEntity.User LoginModelToUser(LoginModel inModel)
         {
@@ -115,21 +126,6 @@ namespace LibraryWebApp.Common
         internal static RoleModel RoleToRoleModel(LibraryCommon.DataEntity.Role r)
         {
             return new RoleModel { RoleId = r.RoleID, RoleName = r.RoleName };
-        }
-
-        internal static UsersModel ResultUsersToUsersModel(ResultUsers resultUsers)
-        {
-            UsersModel _usersModel = new UsersModel();
-            List<UserModel> _list = new List<UserModel>();
-
-            foreach (User _current in resultUsers.ListOfUsers)
-            {
-                _list.Add(Mapper.UserToUserModel(_current));
-            }
-
-            // TODO: SET IT _usersModel.ListOfUsers
-            _usersModel.ListOfUsers = _list;
-            return _usersModel;
         }
 
         internal static LibraryCommon.DataEntity.User UserModelToUser(UserModel inModel)

@@ -10,7 +10,6 @@
     {
 
         // properties
-
         [Required(ErrorMessage ="First name is required.")]
         public string FirstName { get; set; }
 
@@ -25,6 +24,8 @@
         //TODO: other requirements for password at least one number and one special character !@#$%^&*
         public string Password { get; set; }
 
+        public string Salt { get; set; }
+
         public int UserId { get; set;}
 
         public int RoleId { get; set; }
@@ -37,7 +38,7 @@
         // selected value
         public int SelectedRoleId { get; set; }
 
-
+        // constructors
         public UserModel()
         {
             this.RoleList = new List<RoleModel>() { 

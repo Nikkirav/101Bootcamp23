@@ -49,7 +49,8 @@ namespace LibraryDatabaseAccessLayer
                                 FirstName = (string)reader["FirstName"],
                                 UserName = (string)reader["UserName"],
                                 Password = (string)reader["Password"],
-                                RoleID_FK = reader.GetInt32(reader.GetOrdinal("RoleID_FK"))
+                                RoleID_FK = reader.GetInt32(reader.GetOrdinal("RoleID_FK")),
+                                Salt = reader["Salt"] == System.DBNull.Value ? "" : (string)reader["Salt"]
                             };
                             _list.Add(_user);
                         }
@@ -98,6 +99,12 @@ namespace LibraryDatabaseAccessLayer
                     _paramRoleIdFK.ParameterName = "@ParamRoleID";
                     _paramRoleIdFK.Value = u.RoleID_FK;
                     _sqlCommand.Parameters.Add(_paramRoleIdFK);
+
+                    SqlParameter _paramSalt = _sqlCommand.CreateParameter();
+                    _paramSalt.DbType = DbType.String;
+                    _paramSalt.ParameterName = "@ParamSalt";
+                    _paramSalt.Value = u.Salt;
+                    _sqlCommand.Parameters.Add(_paramSalt);
 
                     //SqlParameter _paramAuthorIDReturn = _sqlCommand.CreateParameter();
                     //_paramAuthorIDReturn.DbType = DbType.Int32;
@@ -190,6 +197,12 @@ namespace LibraryDatabaseAccessLayer
                     _paramRoleID.ParameterName = "@ParamRoleID";
                     _paramRoleID.Value = u.RoleID_FK;
                     _sqlCommand.Parameters.Add(_paramRoleID);
+
+                    SqlParameter _paramSalt = _sqlCommand.CreateParameter();
+                    _paramSalt.DbType = DbType.String;
+                    _paramSalt.ParameterName = "@ParamSalt";
+                    _paramSalt.Value = u.Salt;
+                    _sqlCommand.Parameters.Add(_paramSalt);
 
 
                     con.Open();

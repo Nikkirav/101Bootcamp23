@@ -15,6 +15,7 @@ namespace LibraryCommon.DataEntity
         public string UserName { get; set; }
         public string Password { get; set; }
         public int RoleID_FK { get; set; } // foreign key property
+        public string Salt { get; set; }
     }
 
 }

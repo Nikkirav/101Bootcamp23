@@ -21,7 +21,8 @@ namespace LibraryWebApp.Controllers
         // constuctors
         public HomeController() : base() 
         {
-            _dbConn = System.Configuration.ConfigurationManager.ConnectionStrings["dbconnection"].ConnectionString;
+            _dbConn = System.Configuration.ConfigurationManager.
+                ConnectionStrings["dbconnection"].ConnectionString;
             _logic = new UserBusinessLogic(_dbConn);
         }
 
@@ -96,20 +97,20 @@ namespace LibraryWebApp.Controllers
 
                 // 3.c pass the user object down to bll layer
                 //ResultUsers _result = _userOperationsBLL.LoginUser(_user);
-                ResultUsers _result = _logic.LoginUser(_user);
+                ResultUser _result = _logic.LoginUserPassThru(_user);
 
                 if (_result.Type == ResultType.Success)
                 {
-                    UserModel _userModel = Mapper.UserToUserModel(_result.ListOfUsers.Where(u=>u.Username == inModel.Username).FirstOrDefault());
+                    UserModel _userModel = Mapper.UserToUserModel(_result.User);
 
                     // store the userModel in Global session
                     Session["UserSession"] = _userModel;
 
                     // Advanced Auth LMS
-                    Session["AUTHUsername"] = _userModel.Username;
-                    Session["AUTHRoles"] = _userModel.RoleName;
+                    // Session["AUTHUsername"] = _userModel.Username;
+                    // Session["AUTHRoles"] = _userModel.RoleName;
 
-                    return RedirectToAction("Main", "Home");
+                    return RedirectToAction("Search", "Home");
                 }
                 else
                 {
@@ -127,76 +128,76 @@ namespace LibraryWebApp.Controllers
         }
 
 
-        //[HttpGet]
-        //[MustBeLoggedIn]
-        //public ActionResult Logout()
-        //{
-        //    // logout code
-        //    // TODO: FormsAuthentication.SignOut();
-        //    Session.Abandon(); // it will clear the session at the end of request
-        //    return RedirectToAction("Index", "Home");
-
-        //}
-
-
-        //[HttpGet]
-        //public ActionResult GenresAuthors()
-        //{
-
-
-        //    return View();
-        //}
-
-
-        //// Register GET
-        //[HttpGet]
-
-        //[MustBeLoggedIn]
-        //public ActionResult Main()
-        //{
-
-        //    BooksModel model = new BooksModel();
-        //    ViewBag.Message = "Main page";
-        //    ResultBooks _listOfBooks;
-
-        //    // create bll object
-        //    BookOperationsBLL _bll = new BookOperationsBLL(base.Connection);
-
-
-        //    if ((Session["AUTHRoles"].ToString() == RoleType.Administrator.ToString()) ||
-        //        (Session["AUTHRoles"].ToString() == RoleType.Librarian.ToString()))
-        //    {
-
-        //        // stored procedure will return everything
-        //        int _userId = 0;
-
-        //        // get the books for the database based on userid
-        //        _listOfBooks = _bll.GetBooksPassThru(_userId);
-
-        //    }
-        //    else
-        //    {   // Patron
-
-        //        // stored procedure will return everything
-        //        UserModel _user = (UserModel)Session["UserSession"];
-
-        //        // get the books for the database based on userid
-        //        _listOfBooks = _bll.GetBooksPassThru(_user.UserId);
-
-        //    }
-
-
-
-
-        //    // Map ResultBooks to BooksModel
-        //    model = Mapper.ResultsBooksToBooksModel(_listOfBooks);
-        //    return View(model);
-
-        //}
-
-
-        // Register GET
         [HttpGet]
+        //[MustBeLoggedIn]
+        public ActionResult Logout()
+        {
+            // logout code
+            // TODO: FormsAuthentication.SignOut();
+            Session.Abandon(); // it will clear the session at the end of request
+            return RedirectToAction("Search", "Home");
+
+        }
+
+
+            //[HttpGet]
+            //public ActionResult GenresAuthors()
+            //{
+
+
+            //    return View();
+            //}
+
+
+            //// Register GET
+            //[HttpGet]
+
+            //[MustBeLoggedIn]
+            //public ActionResult Main()
+            //{
+
+            //    BooksModel model = new BooksModel();
+            //    ViewBag.Message = "Main page";
+            //    ResultBooks _listOfBooks;
+
+            //    // create bll object
+            //    BookOperationsBLL _bll = new BookOperationsBLL(base.Connection);
+
+
+            //    if ((Session["AUTHRoles"].ToString() == RoleType.Administrator.ToString()) ||
+            //        (Session["AUTHRoles"].ToString() == RoleType.Librarian.ToString()))
+            //    {
+
+            //        // stored procedure will return everything
+            //        int _userId = 0;
+
+            //        // get the books for the database based on userid
+            //        _listOfBooks = _bll.GetBooksPassThru(_userId);
+
+            //    }
+            //    else
+            //    {   // Patron
+
+            //        // stored procedure will return everything
+            //        UserModel _user = (UserModel)Session["UserSession"];
+
+            //        // get the books for the database based on userid
+            //        _listOfBooks = _bll.GetBooksPassThru(_user.UserId);
+
+            //    }
+
+
+
+
+            //    // Map ResultBooks to BooksModel
+            //    model = Mapper.ResultsBooksToBooksModel(_listOfBooks);
+            //    return View(model);
+
+            //}
+
+
+            // Register GET
+            [HttpGet]
         public ActionResult Register()
         {
             // this will create the empty form

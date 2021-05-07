@@ -44,9 +44,11 @@
     <Compile Include="Author.cs" />
     <Compile Include="Book.cs" />
     <Compile Include="Common\ExceptionLogging.cs" />
+    <Compile Include="Common\Hasher.cs" />
     <Compile Include="DataEntity\Author.cs" />
     <Compile Include="DataEntity\Book.cs" />
     <Compile Include="DataEntity\Genre.cs" />
+    <Compile Include="DataEntity\ResultUser.cs" />
     <Compile Include="DataEntity\Role.cs" />
     <Compile Include="DataEntity\User.cs" />
     <Compile Include="Enumerations.cs" />

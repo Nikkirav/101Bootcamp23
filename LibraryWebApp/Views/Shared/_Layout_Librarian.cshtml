@@ -41,10 +41,24 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Library Application</p>
-        </footer>
     </div>
+    <footer class="footer-library">
+        <p>
+            <img src="https://www.dbrl.org/wp-content/themes/cw-dbrl-theme/images/DBRL-linear-white.png" style="width:400px;" />
+            <i class="fa fa-twitter" style="font-size:24px"></i>
+            <i class="fa fa-instagram" style="font-size:24px"></i>
+            <i class="fa fa-youtube" style="font-size:24px"></i>
+        </p>
+        <div>
+            <a href="https://www.dbrl.org/about">ABOUT US</a>
+            <a href="https://www.dbrl.org/about/governance">GOVERNANCE</a>
+            <a href="https://www.dbrl.org/about/accessibility">ACCESSIBILITY</a>
+            <a href="https://www.dbrl.org/employment">EMPLOYMENT</a>
+            <a href="https://www.dbrl.org/giving">GIVE TO YOUR LIBRARY</a>
+            <i class="glyphicon-envelope" style="font-size:24px"><a href="mailto:giancarlo.rhodes@onshoreoutsourcing.com"></a></i>
+            @*<p>&copy; @DateTime.Now.Year - Library Application</p>*@
+        </div>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
