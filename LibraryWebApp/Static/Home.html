@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Home Page</title>
+    <style>
+        positionFix {
+            position: sticky;
+        }
+
+        li {
+            display: inline;
+            color: #05395C;
+            /*overflow: hidden;*/
+            font-size: 16px;
+            padding: 20px;
+        }
+
+            li:hover {
+                background-color: red;
+            }
+
+        ul {
+            padding: 20px;
+            background-color: #81BA49;
+            text-align: center;
+        }
+
+        .backGround:hover {
+            background-color: red;
+        }
+
+
+        input[type=text] {
+            padding: 12px 20px;
+            font-size: 17px;
+            border: solid;
+            border-radius: 4px;
+            /*z-index: 1;*/
+        }
+
+        button {
+            border: none;
+            border-radius: 2px;
+            /*position: relative;
+            z-index:0;*/
+        }
+
+        div {
+            display: flex;
+            flex-direction: column;
+            /*<-- Orignal values -->*/
+            padding: 5%;
+            padding-top: 30px;
+            padding-bottom: 30px;
+            background-image: url(tile.PNG);
+            align-items: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+    </style>
+</head>
+
+
+<body>
+
+
+    <nav>
+        <ul style="text-align: right;">
+            <li> <a href="locationsandhour"> Hours and Locations</a> </li>
+            <li> <a href="eventsvideos.html">Events and Videos</a> </li>
+            <li> <a href="usingthelibrary.html"> Using the Library </a> </li>
+            <li> <a href="catalog.html"> Catalog</a> </li>
+            <li> <a href="myaccount">My account </a> </li>
+        </ul>
+        <img src="DBRL-linear-transparent.png" alt="DBRL" width="320" height="60 " sytle=" float: left;" />
+
+
+        <p style="float:right; "> Hours </p>
+
+        <ul>
+            <li class="backGround"> Browse and Borrow </li>
+            <li>Download and Stream</li>
+            <li>Research and Listen</li>
+
+        </ul>
+
+
+        <div>
+            <h2> What can we help you with? </h2>
+
+
+            <form>
+                <input type="text" size="40" placeholder="books, movies, services, events" name="search">
+
+
+                <button type="submit">
+                    <img src="manifyingglass.PNG" />
+                </button>
+            </form>
+
+
+        </div>
+    </nav>
+</body>
+
+
+</html>

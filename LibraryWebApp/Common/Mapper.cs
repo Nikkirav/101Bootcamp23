@@ -10,33 +10,49 @@ namespace LibraryWebApp.Common
     public static class Mapper
     {
 
-        internal static UserModel UserToUserModel(LibraryCommon.DataEntity.User inUser) 
+        internal static GenreModel GenreModel(LibraryCommon.DataEntity.Genre inGenre)
+        public List<Genre> Get;
+        public object Item2;
+
+        public NewStruct(List<Genre> get, object item2)
         {
-            UserModel _userModel = new UserModel();
-            _userModel.FirstName = inUser.FirstName;
-            _userModel.LastName = inUser.LastName;
-            _userModel.Password = inUser.Password;
-            _userModel.RoleId = inUser.RoleID_FK;
-            _userModel.RoleName = Mapper.RoleIdToRoleName(inUser.RoleID_FK);
-            _userModel.UserId = inUser.UserID;
-            _userModel.Username = inUser.UserName;
-            return _userModel;
+            Get = get;
+            Item2 = item2;
         }
 
-        internal static IEnumerable<UserModel> UserListToUserModels(List<LibraryCommon.DataEntity.User> list)
+        public override bool Equals(object obj)
         {
-            List<UserModel> toReturn = new List<UserModel>();
+            return obj is NewStruct other &&
+           System.Collections.Generic.EqualityComparer<List<Genre>>.Default.Equals(Get, y: other.Get) &&
+           System.Collections.Generic.EqualityComparer<object>.Default.Equals(Item2, other.Item2);
 
-            foreach (LibraryCommon.DataEntity.User _currentItem in list)
+
+
+            GenreModel _genreModel = new GenreModel();
+            _genreModel.Name = inUf.Name;
+
+
+            _GenreModel.GenreId = inGenre.GenreId_FK;
+            _GenreModel.GenreName = Mapper.GenreIdToGenreName(inGenre.GenreId_FK);
+            _GenreModel.GenreId = inGenre.GenreID;
+            _GenreModel.Genrename = inGenre.GenreName;
+            return _genreModel;
+
+
+        }
+
+
+
+        internal static IEnumerable<GenreModel> GenreListToGenreModels(List<LibraryCommon.DataEntity.Genre> list)
+        {
+            List<GenreModel> toReturn = new List<GenreModel>();
+
+            foreach (LibraryCommon.DataEntity.Genre _currentItem in list)
             {
-                UserModel newModel = new UserModel();
+                GenreModel newModel = new GenreModel();
+                newModel.Name = _currentItem.Name;
 
-                newModel.UserId = _currentItem.UserID;
-                newModel.FirstName = _currentItem.FirstName;
-                newModel.LastName = _currentItem.LastName;
-                newModel.Username = _currentItem.UserName;
-                newModel.Password = _currentItem.Password;
-                newModel.RoleId = _currentItem.RoleID_FK;
+                newModel.GenreId = _currentItem.GenreId_FK;
 
                 toReturn.Add(newModel);
             }
@@ -44,93 +60,56 @@ namespace LibraryWebApp.Common
             return toReturn;
         }
 
-        internal static List<RoleModel> RoleListToRoleModelList(List<LibraryCommon.DataEntity.Role> inList)
+        internal static List<GenreModel> GenreListToGenreModelList(List<LibraryCommon.DataEntity.Genre> inList)
         {
-            List<RoleModel> list = new List<RoleModel>();
+            List<GenreModel> list = new List<GenreModel>();
 
-            foreach (LibraryCommon.DataEntity.Role _current in inList)
+            foreach (LibraryCommon.DataEntity.Genre _current in inList)
             {
-                RoleModel rm = new RoleModel();
-                rm.RoleId = _current.RoleID;
-                rm.RoleName = _current.RoleName;
-                list.Add(rm);
+                GenreModel gm = new GenreModel();
+                gm.GenreId = _current.GenreId;
+                gm.GenreName = _current.GenreName;
+                list.Add(gm);
+
+
+
+                return list;
             }
 
-            return list;
-        }
-
-        private static string RoleIdToRoleName(int inRoleId)
-        {
-            switch (inRoleId)
+            private static string GenreIdToGenreName(int inGenreId)
             {
-                case 1:
-                    return RoleType.Administrator.ToString();
-                case 2:
-                    return RoleType.Librarian.ToString();
-                case 3:
-                    return RoleType.Patron.ToString();
-                default:
-                    return RoleType.Anonymous.ToString();
-            }
-        }
-
-        internal static LibraryCommon.DataEntity.Role RoleModelToRole(RoleModel model)
-        {
-            return new LibraryCommon.DataEntity.Role { RoleID = model.RoleId, RoleName = model.RoleName };
-        }
+                switch (inGenreId)
+                {
+                    case 1:
+                        return GenreType.Administrator.ToString();
+                    case 2:
+                        return GenreType.Librarian.ToString();
+                    case 3:
+                        return GenreType.Patron.ToString();
+                    default:
+                        return GenreType.Anonymous.ToString();
 
 
-        internal static LibraryCommon.DataEntity.User LoginModelToUser(LoginModel inModel)
-        {
-            // TODO: mapping
-            LibraryCommon.DataEntity.User _user = new LibraryCommon.DataEntity.User();
-
-            _user.UserName = inModel.Username;
-            _user.Password = inModel.Password;
-
-            return _user;
-        }
-
-        internal static BooksModel ResultsBooksToBooksModel(ResultBooks inResultsBooks)
-        {
-            BooksModel _booksModel = new BooksModel();
-            List<BookModel> _list = new List<BookModel>();
-            _booksModel.DialogMessage = inResultsBooks.Message;
-            _booksModel.DialogMessageType = inResultsBooks.Type.ToString();
-
-            foreach (var _current in inResultsBooks.ListOfBooks)
-            {
-                // map properties
-                 BookModel _book = new BookModel();
-                _book.Author = _current.Author;
-                _book.BookID = _current.BookID.ToString();
-                _book.BookStatus = _current.BookStatus;
-                _book.Title = _current.Title;
-                _book.Genre = _current.Genre;
-
-                // nullable
-                _book.UserID = _current.UserID.ToString();
-                _book.Borrower = _current.Borrower == null ? null : _current.Borrower;
-                _book.CheckOutDate = _current.CheckOutDate == DateTime.MinValue ? null : _current.CheckOutDate.ToString(); // TODO: format
-                _book.DueDateBack = _current.DueDateBack == DateTime.MinValue ? null : _current.DueDateBack.ToString(); // TODO: format
-                _book.ReturnedDate = _current.ReturnedDate == DateTime.MinValue ? null : _current.ReturnedDate.ToString(); // TODO: format
-
-                // add to the return list
-                _list.Add(_book);
+                }
             }
 
-            _booksModel.ListOfBookModel = _list;
-            return _booksModel;
-        }
+            internal static LibraryCommon.DataEntity.Genre GenreModelToGenre(GenreModel model)
+            {
+                return new LibraryCommon.DataEntity.Genre { GenreId = model.GenreId, GenreName = model.GenreName };
+            }
 
-        internal static RoleModel RoleToRoleModel(LibraryCommon.DataEntity.Role r)
-        {
-            return new RoleModel { RoleId = r.RoleID, RoleName = r.RoleName };
-        }
 
-        internal static LibraryCommon.DataEntity.User UserModelToUser(UserModel inModel)
-        {
-            throw new NotImplementedException();
+            internal static LibraryCommon.DataEntity.Genre LoginModelToGenre(LoginModel inModel)
+            {
+                // TODO: mapping
+                LibraryCommon.DataEntity.Genre _Genre = new LibraryCommon.DataEntity.Genre();
+
+                _Genre.GenreName = inModel.Genrename;
+                _Genre.Password = inModel.Password;
+
+                return _Genre;
+            }
         }
     }
-}
+}       
+      
